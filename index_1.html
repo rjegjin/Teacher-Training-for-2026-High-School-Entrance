@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실수 방지를 위한 2026 고입 전형 실무 매뉴얼</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: "Soft Earth Tones" -->
+    <!-- Application Structure Plan: The structure is revised to a "Field Manual" approach, mirroring the speaker's practical, error-prevention focus. The top navigation is updated to '핵심 변경사항', '성적 산출 실무', '원서 작성 실무', '주요 일정', and a new, crucial section, '실전 Q&A 및 팁'. This task-oriented structure allows teachers to see the official process and the speaker's real-world advice side-by-side. The user flow is designed for problem-solving; a teacher facing a specific issue (e.g., a last-minute application change) can quickly navigate to the relevant section and find the speaker's direct guidance. This is more effective than a simple information guide for a high-stakes, "잘해야 본전 (doing it right is the bare minimum)" task. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Speaker's key warnings -> Goal: Prevent errors -> Presentation: Prominent callout boxes (e.g., ⚠️ 연수자 강조) integrated directly into relevant process steps. -> Interaction: Static but highly visible. -> Justification: Reflects the speaker's primary goal of preventing common mistakes by placing warnings in context.
+        - Report Info: NEIS process quirks (e.g., grade re-calculation) -> Goal: Guide complex tasks -> Presentation: Step-by-step instructions within accordions, explicitly detailing the "un-finalize, fix, re-finalize, request" loop. -> Justification: Makes a non-intuitive digital process clear and manageable.
+        - Report Info: Application status flow (저장, 제출, 반려) -> Goal: Clarify/Organize -> Presentation: A visual flow diagram using HTML/CSS, with accompanying text explaining each state transition. -> Justification: Simplifies the complex state management of the application process, a key point of confusion mentioned by the speaker.
+        - Report Info: Real-world anecdotes (last-minute changes, cross-border students) -> Goal: Prepare for exceptions -> Presentation: A dedicated Q&A section using an accordion layout. -> Interaction: Users can expand questions relevant to their situation. -> Justification: Directly addresses the speaker's emphasis on preparing for tricky, non-standard scenarios.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F8F7F4; /* Soft Beige */
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+        .nav-button.active {
+            border-bottom-color: #4A5568; /* Slate 700 */
+            color: #1A202C; /* Slate 900 */
+            background-color: #F7FAFC; /* Slate 50 */
+        }
+        .nav-button:hover {
+            background-color: #E2E8F0; /* Slate 200 */
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .step-item.active {
+            background-color: #E2E8F0; /* Slate 200 */
+            border-left-color: #4A5568; /* Slate 700 */
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .tab-button.active {
+            background-color: #4A5568; /* Slate 700 */
+            color: white;
+        }
+        .speaker-tip {
+            background-color: #FFFBEB; /* Yellow 50 */
+            border-left: 4px solid #FBBF24; /* Yellow 400 */
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .speaker-warning {
+             background-color: #FEF2F2; /* Red 50 */
+            border-left: 4px solid #F87171; /* Red 400 */
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">실수 방지를 위한 2026 고입 전형</h1>
+            <p class="text-lg text-gray-600 mt-2">실무 중심 교원 매뉴얼</p>
+        </header>
+
+        <nav id="main-nav" class="flex flex-wrap justify-center border-b-2 border-gray-300 mb-8 sticky top-0 bg-white/90 backdrop-blur-sm z-10">
+            <button data-target="changes" class="nav-button active text-sm md:text-base font-semibold text-gray-600 py-3 px-2 md:px-6">핵심 변경사항</button>
+            <button data-target="process" class="nav-button text-sm md:text-base font-semibold text-gray-600 py-3 px-2 md:px-6">성적 산출 실무</button>
+            <button data-target="application" class="nav-button text-sm md:text-base font-semibold text-gray-600 py-3 px-2 md:px-6">원서 작성 실무</button>
+            <button data-target="schedule" class="nav-button text-sm md:text-base font-semibold text-gray-600 py-3 px-2 md:px-6">주요 일정</button>
+            <button data-target="faq" class="nav-button text-sm md:text-base font-semibold text-gray-600 py-3 px-2 md:px-6">실전 Q&A 및 팁</button>
+        </nav>
+
+        <main id="main-content">
+            <!-- Section 1: Key Changes -->
+            <section id="changes" class="content-section active">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-1 text-gray-900">2026학년도 주요 변경사항</h2>
+                    <p class="text-gray-600 mb-6">"원서 작성은 잘해야 본전입니다." 실수를 줄이는 것이 가장 중요합니다. 올해의 핵심 변경사항부터 정확히 짚고 넘어가겠습니다.</p>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="border-l-4 border-red-500 bg-red-50 p-4 rounded-r-lg shadow">
+                            <h3 class="font-bold text-lg text-red-800">출결평가 전학년 반영 ⭐</h3>
+                            <p class="text-red-700 mt-1">1, 2, 3학년 전체 미인정 결석, 지각, 조퇴, 결과가 점수에 반영됩니다. 1학년 때부터의 성실한 학교생활이 중요함을 강조해야 합니다.</p>
+                        </div>
+                        <div class="border-l-4 border-blue-500 bg-blue-50 p-4 rounded-r-lg shadow">
+                            <h3 class="font-bold text-lg text-blue-800">대광고, 일반고 전환</h3>
+                            <p class="text-blue-700 mt-1">자사고였던 대광고가 교육감 선발 후기고(일반고)로 전환되어 후기 원서 작성 시 지원 가능합니다.</p>
+                        </div>
+                        <div class="border-l-4 border-green-500 bg-green-50 p-4 rounded-r-lg shadow">
+                            <h3 class="font-bold text-lg text-green-800">봉사활동 만점 처리 (특성화고)</h3>
+                            <p class="text-green-700 mt-1">특성화고 지원 시, 봉사활동 시수와 관계없이 만점 처리됩니다. (단, 서일문화예술고는 제외)</p>
+                        </div>
+                        <div class="border-l-4 border-yellow-500 bg-yellow-50 p-4 rounded-r-lg shadow">
+                            <h3 class="font-bold text-lg text-yellow-800">학생부 자료 온라인 제출</h3>
+                            <p class="text-yellow-700 mt-1">서울 소재 중학교의 특성화고 일반전형 지원자는 나이스로만 제출하며, 별도 학생부 출력물을 제출하지 않습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Grade Calculation Process -->
+            <section id="process" class="content-section">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-1 text-gray-900">나이스(NEIS) 성적 산출 실무</h2>
+                    <p class="text-gray-600 mb-6">성적 산출은 버튼 몇 번으로 끝나지만, 그 과정의 절차를 지키는 것이 선생님을 보호하는 길입니다. 각 단계를 클릭하여 상세 절차와 실무 팁을 확인하세요.</p>
+                    <div class="md:flex md:space-x-8">
+                        <div class="md:w-1/3">
+                            <div id="process-steps" class="space-y-2">
+                            </div>
+                        </div>
+                        <div class="md:w-2/3 mt-6 md:mt-0 bg-gray-50 p-6 rounded-lg border min-h-[300px]">
+                            <div id="process-details">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Application Guide -->
+            <section id="application" class="content-section">
+                 <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-1 text-gray-900">고입 원서 작성 실무</h2>
+                    <p class="text-gray-600 mb-6">나이스를 통한 원서 작성은 '교육감 선발 후기고'와 '특성화고' 두 종류만 가능합니다. 학교 유형별 실무 포인트를 확인하세요.</p>
+
+                    <div class="mb-4 border-b border-gray-200">
+                        <nav id="application-tabs" class="-mb-px flex space-x-4" aria-label="Tabs">
+                             <button class="tab-button active whitespace-nowrap py-3 px-5 font-medium text-sm rounded-t-lg" data-tab-target="general-hs">교육감 선발 후기고</button>
+                             <button class="tab-button whitespace-nowrap py-3 px-5 font-medium text-sm rounded-t-lg" data-tab-target="special-hs">특성화고</button>
+                        </nav>
+                    </div>
+
+                    <div id="application-content">
+                        <div id="general-hs" class="tab-content active">
+                            <div id="general-accordion" class="space-y-2">
+                            </div>
+                        </div>
+                        <div id="special-hs" class="tab-content hidden">
+                           <div id="special-accordion" class="space-y-2">
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Schedule -->
+            <section id="schedule" class="content-section">
+                 <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-1 text-gray-900">주요 일정 및 권장 마감일</h2>
+                    <p class="text-gray-600 mb-6">공식 마감일에 임박해서 처리하면 문제 발생 시 대응이 어렵습니다. 권장 완료일을 기준으로 업무 계획을 세우시는 것이 안전합니다.</p>
+                    <div class="max-w-3xl mx-auto">
+                        <div id="schedule-list" class="space-y-4">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: FAQ -->
+            <section id="faq" class="content-section">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-1 text-gray-900">실전 Q&A 및 핵심 팁</h2>
+                    <p class="text-gray-600 mb-6">연수에서 강조된 실제 사례 기반의 대처법과 추가적인 실무 팁입니다.</p>
+                     <div id="faq-accordion" class="space-y-2">
+                     </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const appData = {
+        processSteps: [
+            {
+                id: 'step1',
+                title: 'STEP 1. 학생부 선행작업',
+                deadline: '공식 마감: ~ 11.14.(금)',
+                details: `
+                    <h3 class="text-lg font-bold text-gray-800">학생부 마감 (나이스)</h3>
+                    <p class="text-sm text-gray-500 mb-4">~ 2025.11.14.(금) 까지</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li><strong>[담임] 출결 마감:</strong> 기준일까지 출결 상황 최종 확인 후 마감합니다.</li>
+                        <li><strong>[담임] 학생부 자료 반영 및 검증:</strong> 성적, 주소 등 모든 자료가 생기부에 '반영'되었는지 확인 후, [자료검증]을 실행합니다.</li>
+                        <li><strong>[담임] 반별 마감:</strong> 검증 시 뜨는 오류는 '고입 성적 처리' 사유로 덮어쓰고, 출결과 3학년 2학기 성적 입력 여부만 최종 확인 후 마감합니다.</li>
+                        <li><strong>[담당자] 전체 마감:</strong> 모든 반 마감 후 학교 전체 마감을 완료합니다.</li>
+                    </ul>
+                    <div class="speaker-tip">
+                        <p class="font-bold">💡 연수자 팁: 나이스 vs 입학 시스템</p>
+                        <p class="text-sm mt-1">성적/원서 작업은 나이스 우측 상단의 '자체개발' 버튼을 눌러 들어가는 별도 서버에서 진행됩니다. 생기부 마감 후, 이 서버가 나이스 데이터를 가져와 처리하는 방식입니다. 모양은 같지만 나이스가 아님을 인지해야 혼선이 없습니다.</p>
+                    </div>`
+            },
+            {
+                id: 'step2',
+                title: 'STEP 2. 성적 확인 및 검증',
+                deadline: '공식 기간: 11.15.(토) ~ 11.20.(목)',
+                details: `
+                    <h3 class="text-lg font-bold text-gray-800">성적 확인 및 검증</h3>
+                    <p class="text-sm text-gray-500 mb-4">2025.11.15.(토) ~ 11.20.(목)</p>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                        <li><strong>[총괄/담임] 대상자 확인:</strong> 성적 산출 제외 대상(특수, 유예 등)을 '제외 대상'으로 체크합니다. (검정고시 합격생도 재학 중이면 '포함'이 원칙)</li>
+                        <li><strong>[담임] 총 이수 과목 수 확인:</strong> 반별로 '총 이수 과목 수'가 동일한지 반드시 확인합니다. 특정 반만 숫자가 적다면 해당 학기 성적이 누락되었을 가능성이 큽니다.</li>
+                        <li class="font-bold text-red-600"><strong>[담임] 학부모 확인서 징구 (가장 중요):</strong> '반별고입성적확인서'를 출력하여 학생 및 학부모의 <strong>자필 서명을 받은 후 회수하여 보관</strong>합니다. 이 절차를 거쳐야 추후 성적 관련 민원에서 선생님을 보호할 수 있습니다.</li>
+                        <li><strong>[담임] 반별 확인 완료:</strong> 학부모 확인서 회수 후, 이상이 없으면 '성적 확인 완료'를 누릅니다.</li>
+                         <li><strong>[총괄] 최종 확인 완료:</strong> 전체 반 확인 완료 후 '성적 확인 완료(총괄)'을 누르면 학교 성적 처리가 최종 확정됩니다.</li>
+                    </ol>
+                     <div class="speaker-warning">
+                        <p class="font-bold">⚠️ 연수자 강조: 성적 확정은 17일(월)에 하십시오!</p>
+                        <p class="text-sm mt-1">20일(목)에 확정하면 21일(금) 시작되는 특성화고 특차 원서작성 일정이 매우 촉박합니다. **17일(월) 오전에 확인서를 배부하고 18일(화)까지 회수하여 마무리**하면, 문제 발생 시 1~2일의 대응 시간을 확보할 수 있습니다.</p>
+                    </div>`
+            },
+            {
+                id: 'step3',
+                title: 'STEP 3. 성적 재산출 요청 시',
+                deadline: '성적 확인 기간 내',
+                details: `
+                    <h3 class="text-lg font-bold text-gray-800">성적 재산출 요청 절차</h3>
+                    <p class="text-sm text-gray-500 mb-4">오류 발견 시, 아래 절차를 반드시 준수해야 합니다.</p>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                        <li><strong>[총괄] 생기부 전체 마감 풀기</strong></li>
+                        <li><strong>[담임] 해당 반 생기부 마감 풀기</strong></li>
+                        <li><strong>[담임] 나이스에서 출결 등 오류 데이터 수정 후 마감 및 반영</strong></li>
+                        <li><strong>[총괄] 생기부 전체 재마감</strong></li>
+                        <li><strong>[담임] 입학 시스템에서 '성적 재산출 요청' 버튼 클릭</strong></li>
+                        <li><strong>[총괄] '재산출 요청' 버튼 클릭하여 본청으로 요청</strong></li>
+                    </ol>
+                    <div class="speaker-warning">
+                        <p class="font-bold">⚠️ 연수자 강조: 재산출 시 다른 반은 마감 풀지 마세요!</p>
+                        <p class="text-sm mt-1">문제가 있는 반만 마감을 풀어야 합니다. 다른 반 교사가 '마감 풀어도 되나보다'하고 본인 반 마감을 풀었다가 불필요한 데이터를 수정하면, 성적에 의도치 않은 변경이 생기는 대형 사고로 이어질 수 있습니다.</p>
+                    </div>`
+            }
+        ],
+        applicationGuide: {
+            general: [
+                 {
+                    title: '⚠️ 가장 헷갈리는 \'자사고/외고/국제고\' 지원자 전형 구분법',
+                    content: `매년 원서를 못쓰는 학생이 발생하는 지점입니다. 정확한 구분이 필수적입니다.<br><br><strong>CASE 1: 자사고/외고/국제고 지원 + 일반고 동시 지원 (대부분의 학생)</strong><br>▶︎ 전형 구분: <strong>후기</strong><br>▶︎ 원서 작성: '후기원서등록' 탭에서 '자사고/외고/국제고 지원' 항목에 <strong>체크</strong> 후, 1단계에 해당 학교, 2단계에 일반고 2개교를 작성합니다.<br><br><strong>CASE 2: "저는 이 자사고/외고/국제고 아니면 안 가요." (일반고 배정 포기)</strong><br>▶︎ 전형 구분: <strong>기타진학</strong> → '자사고,외고,국제고'<br>▶︎ 원서 작성: 이 경우, '후기원서등록' 탭 자체가 비활성화됩니다. 학생과 학부모의 의사를 명확히 확인해야 합니다.`
+                },
+                {
+                    title: '학교 선택 방법 (1, 2단계 지망)',
+                    content: `<strong>1단계 (단일학교군):</strong> 서울시 전체 고등학교 중 2개교를 선택합니다.<br><strong>2단계 (일반학교군):</strong> 학생의 주민등록등본 상 실거주지가 속한 학교군 내 고등학교 중 2개교를 선택합니다.<br><div class="speaker-warning"><p class="font-bold text-sm mt-2">⚠️ 등촌고 vs 둔촌고와 같이 이름이 비슷한 학교를 혼동하지 않도록 학생과 함께 화면을 보며 재차 확인하는 절차가 필요합니다.</p></div>`
+                },
+                 {
+                    title: '특이배정 신청 (쌍둥이, 교직원 자녀 등)',
+                    content: `<strong>쌍둥이:</strong> 동일교 또는 타교 배정을 신청할 수 있습니다. 상대 학생의 원서가 시스템에 등록되어 있어야 조회가 가능하므로, 관련 학생이 있는 경우 담임교사 간 사전 소통이 필수적입니다.<br><strong>교직원 자녀:</strong> 학생과 부모가 같은 교육감 선발 후기고에 배정될 가능성이 있을 경우에만 등록합니다. (예: 부모가 특성화고 교사, 자녀는 일반고 지원 시 등록 불필요)`
+                }
+            ],
+            special: [
+                 {
+                    title: '원서 상태의 이해: 저장, 제출, 그리고 반려',
+                    content: `특성화고 원서 처리는 '상태'의 변화를 이해하는 것이 핵심입니다. <br><br>
+                    <strong>1. 저장:</strong> 원서 내용을 입력하고 '저장' 버튼을 누른 상태. 언제든 수정 가능. <br>
+                    <strong>2. 제출:</strong> '제출' 버튼을 누른 상태. 중학교에서는 더 이상 수정 불가. 특성화고에서 확인 전. <br>
+                    <strong>3. 등록:</strong> 특성화고에서 원서를 확인하고 접수한 상태. <br>
+                    <strong>4. 반려 요청:</strong> '등록' 상태에서 수정을 위해 중학교가 특성화고에 원서를 되돌려달라고 요청하는 것. <br>
+                    <strong>5. 반려:</strong> 특성화고가 요청을 승인하여 원서를 되돌려준 상태. 다시 '저장' 상태와 유사해져 수정 가능. <br><br>
+                    <div class="speaker-tip"><p class="font-bold text-sm mt-2">💡 '제출'과 '저장'을 분리하십시오! '저장' 후 원서를 출력해 학생/학부모 서명을 받고, 이상이 없을 때 '제출'을 누르는 습관을 들여야 실수를 막을 수 있습니다.</p></div>`
+                },
+                {
+                    title: '원서 수정 및 삭제 절차',
+                    content: `<strong>수정 필요 시:</strong><br>1. 특성화고 입학처에 <strong>유선으로 연락</strong>하여 "반려 요청을 했으니 승인해달라"고 소통하는 것이 가장 빠릅니다.<br>2. 나이스에서 '반려 요청' 버튼을 누릅니다.<br>3. 특성화고가 '반려' 처리하면, 원서 내용을 수정한 후 다시 저장 -> 제출합니다.<br><br><strong>삭제 필요 시 (학생이 지원 포기):</strong><br>1. 위와 동일하게 '반려' 상태로 만듭니다.<br>2. [기본정보등록] 탭에서 해당 학생의 전형 구분을 <strong>'원서 삭제'</strong>로 변경 후 저장하면 특성화고 원서가 완전히 삭제됩니다.`
+                }
+            ]
+        },
+        scheduleItems: [
+            { date: '2025. 11. 14. (금)', event: '학생부 마감 및 성적 산출 기준일', category: '성적', highlight: true, recommendation: null },
+            { date: '2025. 11. 15. (토) ~ 11. 20. (목)', event: '학교별 성적 확인 기간', category: '성적', highlight: true, recommendation: '11.17(월) 완료 권장' },
+            { date: '2025. 11. 21. (금) ~ 11. 24. (월)', event: '특성화고 특별전형 원서접수', category: '원서', highlight: false, recommendation: null },
+            { date: '2025. 11. 28. (금) ~ 12. 1. (월)', event: '특성화고 일반전형 원서접수', category: '원서', highlight: false, recommendation: null },
+            { date: '2025. 12. 3. (수) ~ 12. 5. (금)', event: '교육감 선발 후기고 원서접수', category: '원서', highlight: true, recommendation: null },
+            { date: '2026. 1. 7. (수)', event: '후기고 합격자 발표', category: '결과', highlight: false, recommendation: null },
+            { date: '2026. 1. 29. (목)', event: '후기고 배정학교 발표', category: '결과', highlight: false, recommendation: null },
+        ],
+        faqItems: [
+            {
+                title: 'Q. 마감 1시간 전, 학생이 지원 학교를 바꿔달라고 합니다. 어떻게 해야 하나요?',
+                content: `"너 엄마한테 서명 받아올 수 있어?" 라고 대응하면 민원 소지가 됩니다. 학생이 원하는 학교에 지원할 수 있도록 최선을 다해야 합니다.<br><strong>대처 절차:</strong><br>1. (특성화고의 경우) 즉시 해당 고교에 유선 연락하여 반려 요청을 합니다.<br>2. 원서 수정 후, '제출'을 누르기 전에 수정된 원서를 **사진 찍어 학부모에게 문자로 전송**합니다.<br>3. "이 내용으로 지원하는 것이 맞는지 확인 부탁드립니다"라는 내용과 함께, **학부모의 확인 답신 문자를 받아 증빙 자료로 남겨둡니다.**<br>4. 확인 후 최종 제출합니다. 유선 통화보다는 문자 기록이 훨씬 안전합니다.`
+            },
+            {
+                title: 'Q. 경기도 등 타 시/도 거주 학생의 행정동은 어떻게 입력하나요?',
+                content: `학생의 실제 거주지에서 서울에 있는 소속 중학교까지의 **일반적인 통학 경로**를 기준으로, 서울시 경계를 넘어 가장 먼저 마주치는 행정동(주민센터)을 기재합니다. 지도상의 직선거리가 아닌, 네이버 지도 등의 교통 시간 거리를 참고하되, 터무니없는 요구가 아니라면 어느 정도 유연성을 발휘할 수 있습니다. (예: 부천 거주 학생 -> 신월5동 주민센터)`
+            },
+            {
+                title: 'Q. 고등학교 진학을 포기하는 학생은 어떻게 처리하나요?',
+                content: `임의로 원서를 작성하지 않으면 안 됩니다. 반드시 '고등학교 진학 포기원'과 같은 공식 서식을 사용하여 **학생과 학부모의 자필 서명을 받아 증빙 서류를 남겨야 합니다.**`
+            },
+            {
+                title: 'Q. 나이스 권한 문제: 왜 제가 다른 반 학생 정보까지 다 보이나요?',
+                content: `나이스 담당 선생님께 요청하여 해결할 수 있는 문제입니다. 입학 관련 '업무명'을 '고입담임_1반', '고입담임_2반'처럼 **반별로 생성**한 뒤, 각 담임 선생님께 해당 반의 '자료 권한'만 부여해달라고 요청하시면 본인 반의 정보만 열람 및 수정할 수 있습니다.`
+            }
+        ]
+    };
+
+    // Main Navigation
+    const navButtons = document.querySelectorAll('.nav-button');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    navButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const target = button.dataset.target;
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            contentSections.forEach(section => {
+                section.id === target ? section.classList.add('active') : section.classList.remove('active');
+            });
+        });
+    });
+
+    // Process Steps
+    const stepsContainer = document.getElementById('process-steps');
+    const detailsContainer = document.getElementById('process-details');
+
+    appData.processSteps.forEach((step, index) => {
+        const stepEl = document.createElement('div');
+        stepEl.className = 'step-item p-4 border-l-4 border-gray-300 cursor-pointer hover:bg-gray-100 transition';
+        stepEl.innerHTML = `<p class="font-bold text-gray-800">${step.title}</p><p class="text-sm text-gray-500">${step.deadline}</p>`;
+        stepEl.addEventListener('click', () => {
+            document.querySelectorAll('.step-item').forEach(el => el.classList.remove('active'));
+            stepEl.classList.add('active');
+            detailsContainer.innerHTML = step.details;
+        });
+        stepsContainer.appendChild(stepEl);
+        if (index === 0) stepEl.click();
+    });
+
+    // Accordion Creator Function
+    function createAccordion(containerId, data) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+        data.forEach(item => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'border rounded-md bg-white';
+            const header = document.createElement('button');
+            header.className = 'w-full flex justify-between items-center p-4 text-left font-semibold hover:bg-gray-50';
+            header.innerHTML = `<span>${item.title}</span><span class="transform transition-transform duration-300 text-gray-500 text-xl">+</span>`;
+            const content = document.createElement('div');
+            content.className = 'accordion-content';
+            content.innerHTML = `<div class="p-4 border-t text-gray-700">${item.content}</div>`;
+            wrapper.appendChild(header);
+            wrapper.appendChild(content);
+            container.appendChild(wrapper);
+
+            header.addEventListener('click', () => {
+                const isExpanded = content.style.maxHeight && content.style.maxHeight !== '0px';
+                // Close all accordions in the same container
+                const allContents = container.querySelectorAll('.accordion-content');
+                allContents.forEach(el => {
+                    el.style.maxHeight = '0px';
+                    el.previousElementSibling.querySelector('span:last-child').textContent = '+';
+                });
+                if (!isExpanded) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    header.querySelector('span:last-child').textContent = '-';
+                }
+            });
+        });
+    }
+
+    createAccordion('general-accordion', appData.applicationGuide.general);
+    createAccordion('special-accordion', appData.applicationGuide.special);
+    createAccordion('faq-accordion', appData.faqItems);
+
+    // Application Guide Tabs
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const target = button.dataset.tabTarget;
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            tabContents.forEach(content => {
+                content.id === target ? content.classList.add('active', 'block') : content.classList.remove('active', 'block');
+                content.id === target ? content.classList.remove('hidden') : content.classList.add('hidden');
+            });
+        });
+    });
+
+    // Schedule
+    const scheduleList = document.getElementById('schedule-list');
+    function renderSchedule() {
+        scheduleList.innerHTML = '';
+        appData.scheduleItems.forEach(item => {
+            const itemEl = document.createElement('div');
+            const highlightClass = item.highlight ? 'border-gray-700 bg-gray-100' : 'border-gray-200 bg-white';
+            const dateHighlightClass = item.highlight ? 'bg-gray-700 text-white' : 'bg-gray-200 text-gray-700';
+            const recommendationHTML = item.recommendation ? `<div class="mt-2 text-center"><span class="text-xs font-bold text-red-600 bg-red-100 px-2 py-1 rounded-full">${item.recommendation}</span></div>` : '';
+
+            itemEl.className = `flex items-center p-4 rounded-lg border-l-4 ${highlightClass} shadow-sm`;
+            itemEl.innerHTML = `
+                <div class="text-center mr-4 w-32 flex-shrink-0">
+                    <p class="font-bold text-sm md:text-base px-2 py-1 rounded-md ${dateHighlightClass}">${item.date.split('~')[0].trim()}</p>
+                    ${item.date.includes('~') ? `<p class="text-xs text-gray-500 my-1">~ ${item.date.split('~')[1].trim()}</p>` : ''}
+                    ${recommendationHTML}
+                </div>
+                <div class="flex-grow">
+                    <p class="font-semibold text-gray-800">${item.event}</p>
+                </div>
+            `;
+            scheduleList.appendChild(itemEl);
+        });
+    }
+    renderSchedule();
+
+});
+</script>
+</body>
+</html>
+
