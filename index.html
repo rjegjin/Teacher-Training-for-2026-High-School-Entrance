@@ -16,62 +16,81 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            background-color: white;
         }
         .card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
+        .card-content {
+            flex-grow: 1;
+        }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen py-10">
+<body class="py-10">
 
     <div class="container mx-auto p-8">
-        <header class="text-center mb-12">
+        <header class="text-center mb-16">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-900">2026학년도 고입 전형</h1>
-            <p class="text-xl text-gray-600 mt-3">교원 연수 자료 선택</p>
+            <p class="text-xl text-gray-600 mt-3">교원 연수 자료</p>
         </header>
 
-        <main class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            
-            <!-- Card 1: Information-focused Guide -->
-            <a href="guide_info.html" class="card block bg-white p-8 rounded-xl shadow-lg border border-gray-200">
-                <div class="text-center flex-grow">
-                    <div class="mb-4 text-5xl">📄</div>
-                    <h2 class="text-2xl font-bold text-gray-800 mb-3">정보 중심 가이드</h2>
-                    <p class="text-gray-600">연수 자료(PDF) 기반의 체계적인 대화형 웹페이지입니다. 전체 내용을 구조적으로 파악하고 싶을 때 유용합니다.</p>
-                </div>
-                <div class="mt-6 text-center">
-                    <span class="inline-block bg-slate-700 text-white font-semibold py-2 px-6 rounded-lg">바로가기</span>
-                </div>
-            </a>
+        <main class="space-y-16">
 
-            <!-- Card 2: Practical-focused Manual -->
-            <a href="guide_practical.html" class="card block bg-white p-8 rounded-xl shadow-lg border border-gray-200">
-                <div class="text-center flex-grow">
-                    <div class="mb-4 text-5xl">🎙️</div>
-                    <h2 class="text-2xl font-bold text-gray-800 mb-3">실무 중심 매뉴얼</h2>
-                    <p class="text-gray-600">현장 연수(음성)의 핵심을 반영한 실수 방지 및 실무 팁 중심의 매뉴얼입니다. 실제 업무 처리 중 궁금한 점이 생겼을 때 유용합니다.</p>
+            <!-- Section 1: Core Guides -->
+            <div>
+                <h2 class="text-3xl font-bold text-center mb-8 text-slate-800">핵심 가이드</h2>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <a href="guide_info.html" class="card block p-8 rounded-xl shadow-lg border border-gray-200">
+                        <div class="card-content text-center">
+                            <div class="mb-4 text-5xl">📄</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">교원용 핵심 가이드</h3>
+                            <p class="text-gray-600">전반적인 고입 전형 변경사항과 핵심 내용을 구조적으로 파악할 수 있습니다.</p>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <span class="inline-block bg-slate-700 text-white font-semibold py-2 px-6 rounded-lg">바로가기</span>
+                        </div>
+                    </a>
+                    <a href="guide_practical.html" class="card block p-8 rounded-xl shadow-lg border border-gray-200">
+                        <div class="card-content text-center">
+                            <div class="mb-4 text-5xl">🎙️</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">실수 방지 실무 매뉴얼</h3>
+                            <p class="text-gray-600">실제 업무 중 발생할 수 있는 실수를 예방하기 위한 실전 팁과 Q&A를 확인합니다.</p>
+                        </div>
+                        <div class="mt-6 text-center">
+                             <span class="inline-block bg-slate-700 text-white font-semibold py-2 px-6 rounded-lg">바로가기</span>
+                        </div>
+                    </a>
                 </div>
-                <div class="mt-6 text-center">
-                     <span class="inline-block bg-slate-700 text-white font-semibold py-2 px-6 rounded-lg">바로가기</span>
-                </div>
-            </a>
+            </div>
 
-            <!-- Card 3: NEIS Manual -->
-            <a href="neis_manual.html" class="card block bg-white p-8 rounded-xl shadow-lg border border-gray-200">
-                <div class="text-center flex-grow">
-                    <div class="mb-4 text-5xl">🖥️</div>
-                    <h2 class="text-2xl font-bold text-gray-800 mb-3">나이스(NEIS) 실무 연수</h2>
-                    <p class="text-gray-600">처음 업무를 맡는 선생님을 위한 PPT 형식의 단계별 나이스 화면 및 메뉴 안내입니다. 실제 시스템 조작 시 참고하기 좋습니다.</p>
+            <!-- Section 2: NEIS & Specialized -->
+            <div>
+                <h2 class="text-3xl font-bold text-center mb-8 text-slate-800">업무별 실무 매뉴얼</h2>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <a href="neis_manual_integrated.html" class="card block p-8 rounded-xl shadow-lg border border-gray-200">
+                        <div class="card-content text-center">
+                            <div class="mb-4 text-5xl">🖥️</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">NEIS 통합 실무 매뉴얼</h3>
+                            <p class="text-gray-600">나이스 고입 업무 절차를 단계별(기본/달력/상세)로 나누어 학습합니다.</p>
+                        </div>
+                         <div class="mt-6 text-center">
+                             <span class="inline-block bg-slate-700 text-white font-semibold py-2 px-6 rounded-lg">바로가기</span>
+                        </div>
+                    </a>
+                    <a href="neis_manual4.html" class="card block p-8 rounded-xl shadow-lg border border-gray-200">
+                        <div class="card-content text-center">
+                            <div class="mb-4 text-5xl">🎓</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">특성화고 진학 실무</h3>
+                            <p class="text-gray-600">특성화고 원서 작성 방법과 전형별 유의사항을 집중적으로 안내합니다.</p>
+                        </div>
+                         <div class="mt-6 text-center">
+                             <span class="inline-block bg-slate-700 text-white font-semibold py-2 px-6 rounded-lg">바로가기</span>
+                        </div>
+                    </a>
                 </div>
-                 <div class="mt-6 text-center">
-                     <span class="inline-block bg-slate-700 text-white font-semibold py-2 px-6 rounded-lg">바로가기</span>
-                </div>
-            </a>
-            
+            </div>
         </main>
     </div>
-
 </body>
 </html>
-
