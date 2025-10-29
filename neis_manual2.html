@@ -41,9 +41,36 @@
         .calendar-day {
             min-height: 100px;
         }
+        .btn-container {
+            padding: 1rem;
+            background-color: #F1F5F9; /* slate-100 */
+            text-align: center;
+            width: 100%;
+        }
+        .nav-button-top {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #1E293B; /* slate-800 */
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .nav-button-top:hover, .nav-button-top:focus {
+            background-color: #0F172A; /* slate-900 */
+            outline: 2px solid #0F172A;
+        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="btn-container">
+        <a href="index.html" class="nav-button-top" role="button">메인으로 돌아가기</a>
+    </div>
 
     <div class="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div id="slides-container" class="relative p-8 md:p-12">
@@ -254,6 +281,10 @@
             <button id="next-btn" class="bg-slate-800 text-white font-semibold py-2 px-6 rounded-lg shadow-sm hover:bg-slate-700 transition">다음</button>
         </div>
     </div>
+
+<div class="btn-container">
+    <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="nav-button-top" role="button">맨 위로 이동</a>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
