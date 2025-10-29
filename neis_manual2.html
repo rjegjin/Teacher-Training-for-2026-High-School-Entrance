@@ -7,284 +7,48 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
-        body {
-            font-family: 'Noto Sans KR', sans-serif; 
-            background-color: #F1F5F9; /* slate-100 */
-        }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #F1F5F9; }
         .slide {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            min-height: 550px;
+            display: none; opacity: 0; transition: opacity 0.5s ease-in-out;
+            position: absolute; width: 100%; height: 100%; left: 0; top: 0; padding: 2rem 3rem;
         }
-        .slide.active {
-            display: flex;
-            flex-direction: column;
-            opacity: 1;
-        }
-        .highlight-red {
-            color: #EF4444; /* red-500 */
-            font-weight: 700;
-        }
-        .tip-box {
-            background-color: #FFFBEB; /* yellow-50 */
-            border-left: 4px solid #FBBF24; /* yellow-400 */
-            padding: 1rem;
-            margin-top: 1.5rem;
-            border-radius: 0.25rem;
-        }
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, minmax(0, 1fr));
-        }
-        .calendar-day {
-            min-height: 100px;
-        }
-        .btn-container {
-            padding: 1rem;
-            background-color: #F1F5F9; /* slate-100 */
-            text-align: center;
-            width: 100%;
-        }
-        .nav-button-top {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: white;
-            background-color: #1E293B; /* slate-800 */
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .nav-button-top:hover, .nav-button-top:focus {
-            background-color: #0F172A; /* slate-900 */
-            outline: 2px solid #0F172A;
-        }
+        .slide.active { display: block; opacity: 1; }
+        .highlight-red { color: #EF4444; font-weight: 700; }
+        .tip-box { background-color: #FFFBEB; border-left: 4px solid #FBBF24; padding: 1rem; margin-top: 1.5rem; border-radius: 0.25rem; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+        .calendar-day { min-height: 100px; }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
 
-    <div class="btn-container">
-        <a href="index.html" class="nav-button-top" role="button">메인으로 돌아가기</a>
+    <!-- Floating Action Buttons -->
+    <div class="fixed bottom-4 right-4 z-20 flex flex-col space-y-2">
+        <button id="fullscreen-btn" class="bg-slate-700 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-slate-800 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m0 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5h-4m0 0v-4m0 4l-5-5" /></svg>
+        </button>
     </div>
 
     <div class="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden">
-        <div id="slides-container" class="relative p-8 md:p-12">
-            <!-- Slide 1: Title -->
-            <div class="slide active" data-slide="1">
-                <div class="flex flex-col items-center justify-center h-full text-center my-auto">
-                    <div class="text-blue-500 text-6xl mb-6"><i class="fa-solid fa-school"></i></div>
-                    <h1 class="text-4xl md:text-5xl font-bold text-slate-800">2026학년도 고입 진학 실무</h1>
-                    <h2 class="text-3xl md:text-4xl font-semibold text-slate-600 mt-2">나이스(NEIS) 매뉴얼</h2>
-                    <p class="mt-8 text-lg text-slate-500 max-w-2xl">3학년 담임 교사를 위한 월별 주요 업무 및 나이스 처리 절차를 안내합니다.</p>
-                </div>
-            </div>
-
-            <!-- Slide 2: November Timeline (Early) -->
-            <div class="slide" data-slide="2" style="min-height: 600px;">
-                <h2 class="text-3xl font-bold text-slate-800 mb-4"><i class="fa-regular fa-calendar-days text-slate-400 mr-3"></i>2025년 11월 업무 달력</h2>
-                <div class="calendar-grid text-center font-semibold text-sm text-slate-600 border-t border-l border-slate-200">
-                    <!-- Day Headers -->
-                    <div class="py-2 border-r border-b border-slate-200 bg-slate-50 text-red-500">일</div>
-                    <div class="py-2 border-r border-b border-slate-200 bg-slate-50">월</div>
-                    <div class="py-2 border-r border-b border-slate-200 bg-slate-50">화</div>
-                    <div class="py-2 border-r border-b border-slate-200 bg-slate-50">수</div>
-                    <div class="py-2 border-r border-b border-slate-200 bg-slate-50">목</div>
-                    <div class="py-2 border-r border-b border-slate-200 bg-slate-50">금</div>
-                    <div class="py-2 border-r border-b border-slate-200 bg-slate-50 text-blue-500">토</div>
-                    <!-- Week 1 -->
-                    <div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div>
-                    <div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div>
-                    <div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div>
-                    <div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div>
-                    <div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div>
-                    <div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-blue-600">1</span></div>
-                    <!-- Week 2 -->
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-red-600">2</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">3</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">4</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">5</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">6</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">7</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-blue-600">8</span></div>
-                    <!-- Week 3 -->
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-amber-50"><span class="font-bold text-red-600">9</span><div class="text-xs mt-1 p-1 rounded bg-amber-200 text-amber-800">· 주소/출결 확인 마감</div></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">10</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">11</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">12</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">13</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-red-50"><span class="font-bold">14</span><div class="text-xs mt-1 p-1 rounded bg-red-200 text-red-800">· 생기부 최종 마감</div></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-blue-600">15</span></div>
-                    <!-- Week 4 -->
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-red-600">16</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">17</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-sky-50"><span class="font-bold">18</span><div class="text-xs mt-1 p-1 rounded bg-sky-200 text-sky-800">· 성적 확인서 배부/수거</div></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">19</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-sky-50"><span class="font-bold">20</span><div class="text-xs mt-1 p-1 rounded bg-sky-200 text-sky-800">· 성적표/가원서 배부</div></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">21</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-green-50"><span class="font-bold text-blue-600">22</span><div class="text-xs mt-1 p-1 rounded bg-green-200 text-green-800">· 가원서 수합 완료</div></div>
-                    <!-- Week 5 -->
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-red-600">23</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">24</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">25</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">26</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-green-50"><span class="font-bold">27</span><div class="text-xs mt-1 p-1 rounded bg-green-200 text-green-800">· 최종 원서(진원서) 수합</div></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">28</span></div>
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-red-50"><span class="font-bold text-blue-600">29</span><div class="text-xs mt-1 p-1 rounded bg-red-200 text-red-800">· 원서 최종 제출 마감</div></div>
-                    <!-- Week 6 -->
-                    <div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-red-600">30</span></div>
-                    <div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div>
-                </div>
-            </div>
-            
-            <!-- Slide 3: Key Changes -->
-            <div class="slide" data-slide="3">
-                 <h2 class="text-3xl font-bold text-slate-800"><i class="fa-solid fa-circle-info text-slate-400 mr-3"></i>2026학년도 주요 변경 사항</h2>
-                 <p class="text-lg text-slate-500 mt-2">작년과 달라진 핵심 내용입니다. 학생 및 학부모 상담 시 유의해주세요.</p>
-                 <div class="mt-8 grid md:grid-cols-2 gap-6">
-                    <div class="bg-slate-50 p-6 rounded-lg shadow-sm border-l-4 border-red-400">
-                        <h3 class="font-bold text-xl text-slate-800 mb-2"><i class="fa-solid fa-user-check text-red-400 mr-2"></i>출결: 전 학년 반영</h3>
-                        <p class="text-slate-600 mt-3">출결 점수 산정 시 <strong class="highlight-red">1, 2, 3학년 전체</strong>의 미인정 결석, 지각, 조퇴, 결과가 모두 반영됩니다.</p>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-lg shadow-sm border-l-4 border-blue-400">
-                        <h3 class="font-bold text-xl text-slate-800 mb-2"><i class="fa-solid fa-school-flag text-blue-400 mr-2"></i>학교 변경</h3>
-                        <p class="text-slate-600 mt-3">자사고였던 **대광고등학교**가 **일반고**로 전환됩니다.</p>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-lg shadow-sm border-l-4 border-green-400">
-                        <h3 class="font-bold text-xl text-slate-800 mb-2"><i class="fa-solid fa-desktop text-green-400 mr-2"></i>NEIS 메뉴 신설</h3>
-                        <p class="text-slate-600 mt-3">**교육활동 침해 학생** 분리 배정 대상자 등록 메뉴가 신설되었습니다.</p>
-                    </div>
-                     <div class="bg-slate-50 p-6 rounded-lg shadow-sm border-l-4 border-yellow-400">
-                        <h3 class="font-bold text-xl text-slate-800 mb-2"><i class="fa-solid fa-pencil text-yellow-400 mr-2"></i>기타 중요사항</h3>
-                        <ul class="list-disc list-inside space-y-2 text-slate-600 mt-3">
-                             <li>위탁학생 성적 입력 시 <strong class="highlight-red">'원점수'와 '성취도'</strong> 모두 필수</li>
-                             <li>검정고시 합격 후 재취학 시, 생기부 성적 활용</li>
-                        </ul>
-                    </div>
-                 </div>
-            </div>
-
-            <!-- Slide 4: Pre-NEIS Check -->
-            <div class="slide" data-slide="4">
-                <h2 class="text-3xl font-bold text-slate-800"><i class="fa-solid fa-list-check text-slate-400 mr-3"></i>나이스 작업 전 사전 확인 사항</h2>
-                <p class="text-lg text-slate-500 mt-2">본격적인 나이스 작업 전, 아래 항목들을 먼저 확인하고 점검해야 실수를 줄일 수 있습니다.</p>
-                <div class="mt-6 space-y-6">
-                    <div>
-                        <h3 class="text-2xl font-semibold text-slate-700"><i class="fa-solid fa-location-dot text-slate-500 w-8"></i> 1. 학생 주소 확인 (도로명)</h3>
-                        <p class="mt-2 text-slate-600">학생의 <strong class="highlight-red">실거주지 기준 주민등록등본상 도로명 주소</strong>를 확인합니다. 이 주소는 후기고 2단계 배정의 기준이 되므로 정확해야 합니다.</p>
-                         <p class="mt-2"><strong>경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학적] > [기본학적관리] > [기본신상관리] > [누가주소등록]</code></p>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-semibold text-slate-700"><i class="fa-solid fa-signature text-slate-500 w-8"></i> 2. 출결 상황 확인 (서명 필수)</h3>
-                        <p class="mt-2 text-slate-600">학생별 출결 상황표를 출력하여 <strong class="highlight-red">학생 및 학부모의 확인 서명</strong>을 받아 보관합니다. 이는 출결 점수 관련 민원을 예방하는 중요한 절차입니다.</p>
-                        <p class="mt-2"><strong>경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학생부] > [학생부항목별조회] > [출결상황(개인별)]</code></p>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-semibold text-slate-700"><i class="fa-solid fa-users text-slate-500 w-8"></i> 3. 특이배정 대상자 확인</h3>
-                        <p class="mt-2 text-slate-600">쌍둥이, 교직원 자녀 등 특이배정 대상 학생이 있는지 사전에 파악하고 필요한 서류(가족관계증명서, 재직증명서 등)를 안내합니다.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 5: NEIS Workflow 1 -->
-            <div class="slide" data-slide="5">
-                <h2 class="text-3xl font-bold text-slate-800"><i class="fa-solid fa-sitemap text-slate-400 mr-3"></i>업무 흐름 ①: 성적 처리</h2>
-                <p class="text-lg text-slate-500 mt-2">나이스 [자체개발] 서버에서의 성적 산출 및 확인 절차입니다.</p>
-                <div class="mt-12 grid grid-cols-1 md:grid-cols-5 gap-4 text-center">
-                    <div class="bg-slate-100 p-4 rounded-lg shadow-sm">
-                        <div class="text-2xl mb-2">🏫</div><strong class="text-slate-700">학교</strong><p class="text-sm text-slate-500 mt-1">생기부 마감<br>(~11/14)</p>
-                    </div>
-                    <div class="flex items-center justify-center font-bold text-3xl text-slate-300">→</div>
-                    <div class="bg-blue-100 p-4 rounded-lg shadow-sm">
-                        <div class="text-2xl mb-2">🏢</div><strong class="text-blue-700">교육청</strong><p class="text-sm text-blue-500 mt-1">대상자 생성<br>& 성적 산출</p>
-                    </div>
-                    <div class="flex items-center justify-center font-bold text-3xl text-slate-300">→</div>
-                    <div class="bg-emerald-100 p-4 rounded-lg shadow-sm">
-                        <div class="text-2xl mb-2">🧑‍🏫</div><strong class="text-emerald-700">학교</strong><p class="text-sm text-emerald-500 mt-1">성적 검증/확정<br>(11/15~20)</p>
-                    </div>
-                </div>
-                <ol class="mt-10 space-y-3 list-decimal list-inside text-lg">
-                    <li><strong>[총괄]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[업무처리현황/관리]</code>에서 대상자 인원 확인, 담임 등록</li>
-                    <li><strong>[담임]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별대상자확인]</code>에서 성적 산출 제외 대상자 체크 후 저장</li>
-                    <li class="font-bold"><strong>[담임]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별고입성적확인서]</code> 출력 후 <strong class="highlight-red">학부모 서명 받아 보관 (★)</strong></li>
-                    <li><strong>[담임]</strong> 서명 확인 후 <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별고입성적확인]</code>에서 '성적확인완료' 클릭</li>
-                    <li><strong>[총괄]</strong> 모든 반 완료 확인 후 <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[업무처리현황/관리]</code>에서 '성적확인완료(총괄)' 클릭</li>
-                </ol>
-            </div>
-
-            <!-- Slide 6: NEIS Workflow 2 -->
-            <div class="slide" data-slide="6">
-                <h2 class="text-3xl font-bold text-slate-800"><i class="fa-solid fa-sitemap text-slate-400 mr-3"></i>업무 흐름 ②: 원서 작성</h2>
-                <p class="text-lg text-slate-500 mt-2">학생의 미래가 걸린 마지막 단계입니다. 더블 체크는 필수입니다.</p>
-                <div class="mt-12 grid grid-cols-1 md:grid-cols-5 gap-4 text-center">
-                    <div class="bg-emerald-100 p-4 rounded-lg shadow-sm">
-                        <div class="text-2xl mb-2">✍️</div><strong class="text-emerald-700">담임</strong><p class="text-sm text-emerald-500 mt-1">원서 작성 및<br>학부모 확인</p>
-                    </div>
-                    <div class="flex items-center justify-center font-bold text-3xl text-slate-300">→</div>
-                    <div class="bg-emerald-100 p-4 rounded-lg shadow-sm">
-                        <div class="text-2xl mb-2">✅</div><strong class="text-emerald-700">총괄</strong><p class="text-sm text-emerald-500 mt-1">원서 마감 및<br>온라인 전송</p>
-                    </div>
-                    <div class="flex items-center justify-center font-bold text-3xl text-slate-300">→</div>
-                    <div class="bg-blue-100 p-4 rounded-lg shadow-sm">
-                        <div class="text-2xl mb-2">📬</div><strong class="text-blue-700">교육청</strong><p class="text-sm text-blue-500 mt-1">원서 접수 및<br>최종 마감</p>
-                    </div>
-                </div>
-                <ol class="mt-10 space-y-3 list-decimal list-inside text-lg">
-                    <li><strong>[담임]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서작성]</code>에서 학생별 원서(가원서 기반) 내용 입력 및 저장</li>
-                    <li class="font-bold"><strong>[담임]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[개인별원서출력]</code>에서 최종 원서 출력 후 <strong class="highlight-red">학부모 서명 받아 보관 (★)</strong></li>
-                    <li><strong>[담임]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서검증/마감]</code>에서 반별 마감 처리</li>
-                    <li><strong>[총괄]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서학교마감/현황]</code>에서 전체 마감 처리</li>
-                    <li><strong>[총괄]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[후기원서전송/대장출력]</code>에서 온라인 전송 및 접수대장 출력 제출</li>
-                </ol>
-            </div>
-            
-            <!-- Slide 7: Tips -->
-            <div class="slide" data-slide="7">
-                <h2 class="text-3xl font-bold text-slate-800"><i class="fa-solid fa-lightbulb text-slate-400 mr-3"></i>핵심 실무 Q&A</h2>
-                <p class="text-lg text-slate-500 mt-2">"원서 작성은 잘해야 본전"입니다. 성적 확인 절차 준수는 선생님을 보호하는 가장 확실한 방법입니다.</p>
-                <div class="mt-8 space-y-6">
-                    <div class="tip-box">
-                        <p class="font-bold">💡 Q. '기타진학'은 어떤 학생이 선택하나요?</p>
-                        <p class="text-sm mt-2">자사고/외고/국제고 지원자 중 <strong class="highlight-red">일반고 배정을 희망하지 않는 학생만</strong> '기타진학'으로 처리합니다. 대부분은 일반고 배정을 희망하므로 '후기' 전형으로 원서를 작성해야 합니다. 이 구분을 잘못하면 학생이 원서를 못 쓰는 불상사가 생길 수 있습니다.</p>
-                    </div>
-                    <div class="tip-box">
-                        <p class="font-bold">💡 Q. 특성화고 원서 제출 시 주의할 점은?</p>
-                        <p class="text-sm mt-2">특성화고 원서는 저장 후 반드시 <strong class="highlight-red">'제출'</strong> 버튼을 클릭해야 합니다. 최종적으로 <strong class="highlight-red">'접수 번호'</strong>가 생성되었는지 확인해야만 정상적으로 제출이 완료된 것입니다.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 8: Final -->
-            <div class="slide" data-slide="8">
-                <div class="flex flex-col items-center justify-center h-full text-center my-auto">
-                    <div class="text-slate-500 text-6xl mb-6"><i class="fa-regular fa-thumbs-up"></i></div>
-                    <h1 class="text-4xl font-bold text-slate-800">수고하셨습니다</h1>
-                    <p class="mt-6 text-lg text-slate-500 max-w-2xl">
-                        고입 전형 업무는 정확성과 절차 준수가 가장 중요합니다.<br>
-                        학생들의 성공적인 진학을 위해 함께 노력해주셔서 감사합니다.
-                    </p>
-                </div>
-            </div>
+        <div id="slides-container" class="relative min-h-[650px]">
+            <div class="slide active" data-slide="1"><div class="slide-content flex flex-col items-center justify-center h-full text-center my-auto"><div class="text-blue-500 text-6xl mb-6"><i class="fa-solid fa-school"></i></div><h1 class="text-4xl md:text-5xl font-bold text-slate-800">2026학년도 고입 진학 실무</h1><h2 class="text-3xl md:text-4xl font-semibold text-slate-600 mt-2">나이스(NEIS) 매뉴얼</h2><p class="mt-8 text-lg text-slate-500 max-w-2xl">3학년 담임 교사를 위한 월별 주요 업무 및 나이스 처리 절차를 안내합니다.</p></div></div>
+            <div class="slide" data-slide="2"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-4"><i class="fa-regular fa-calendar-days text-slate-400 mr-3"></i>2025년 11월 업무 달력</h2><div class="calendar-grid text-center font-semibold text-sm text-slate-600 border-t border-l border-slate-200"><div class="py-2 border-r border-b border-slate-200 bg-slate-50 text-red-500">일</div><div class="py-2 border-r border-b border-slate-200 bg-slate-50">월</div><div class="py-2 border-r border-b border-slate-200 bg-slate-50">화</div><div class="py-2 border-r border-b border-slate-200 bg-slate-50">수</div><div class="py-2 border-r border-b border-slate-200 bg-slate-50">목</div><div class="py-2 border-r border-b border-slate-200 bg-slate-50">금</div><div class="py-2 border-r border-b border-slate-200 bg-slate-50 text-blue-500">토</div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-blue-600">1</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-red-600">2</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">3</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">4</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">5</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">6</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">7</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-blue-600">8</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-amber-50"><span class="font-bold text-red-600">9</span><div class="text-xs mt-1 p-1 rounded bg-amber-200 text-amber-800">· 주소/출결 확인 마감</div></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">10</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">11</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">12</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">13</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-red-50"><span class="font-bold">14</span><div class="text-xs mt-1 p-1 rounded bg-red-200 text-red-800">· 생기부 최종 마감</div></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-blue-600">15</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-red-600">16</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">17</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-sky-50"><span class="font-bold">18</span><div class="text-xs mt-1 p-1 rounded bg-sky-200 text-sky-800">· 성적 확인서 배부/수거</div></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">19</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-sky-50"><span class="font-bold">20</span><div class="text-xs mt-1 p-1 rounded bg-sky-200 text-sky-800">· 성적표/가원서 배부</div></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">21</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-green-50"><span class="font-bold text-blue-600">22</span><div class="text-xs mt-1 p-1 rounded bg-green-200 text-green-800">· 가원서 수합 완료</div></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-red-600">23</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">24</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">25</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">26</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-green-50"><span class="font-bold">27</span><div class="text-xs mt-1 p-1 rounded bg-green-200 text-green-800">· 최종 원서(진원서) 수합</div></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold">28</span></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200 bg-red-50"><span class="font-bold text-blue-600">29</span><div class="text-xs mt-1 p-1 rounded bg-red-200 text-red-800">· 원서 최종 제출 마감</div></div><div class="calendar-day p-1 text-left border-r border-b border-slate-200"><span class="font-bold text-red-600">30</span></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div><div class="calendar-day border-r border-b border-slate-200 bg-slate-50"></div></div></div></div>
+            <div class="slide" data-slide="3"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800"><i class="fa-solid fa-circle-info text-slate-400 mr-3"></i>2026학년도 주요 변경 사항</h2><p class="text-lg text-slate-500 mt-2">작년과 달라진 핵심 내용입니다. 학생 및 학부모 상담 시 유의해주세요.</p><div class="mt-8 grid md:grid-cols-2 gap-6"><div class="bg-slate-50 p-6 rounded-lg shadow-sm border-l-4 border-red-400"><h3 class="font-bold text-xl text-slate-800 mb-2"><i class="fa-solid fa-user-check text-red-400 mr-2"></i>출결: 전 학년 반영</h3><p class="text-slate-600 mt-3">출결 점수 산정 시 <strong class="highlight-red">1, 2, 3학년 전체</strong>의 미인정 결석, 지각, 조퇴, 결과가 모두 반영됩니다.</p></div><div class="bg-slate-50 p-6 rounded-lg shadow-sm border-l-4 border-blue-400"><h3 class="font-bold text-xl text-slate-800 mb-2"><i class="fa-solid fa-school-flag text-blue-400 mr-2"></i>학교 변경</h3><p class="text-slate-600 mt-3">자사고였던 **대광고등학교**가 **일반고**로 전환됩니다.</p></div><div class="bg-slate-50 p-6 rounded-lg shadow-sm border-l-4 border-green-400"><h3 class="font-bold text-xl text-slate-800 mb-2"><i class="fa-solid fa-desktop text-green-400 mr-2"></i>NEIS 메뉴 신설</h3><p class="text-slate-600 mt-3">**교육활동 침해 학생** 분리 배정 대상자 등록 메뉴가 신설되었습니다.</p></div><div class="bg-slate-50 p-6 rounded-lg shadow-sm border-l-4 border-yellow-400"><h3 class="font-bold text-xl text-slate-800 mb-2"><i class="fa-solid fa-pencil text-yellow-400 mr-2"></i>기타 중요사항</h3><ul class="list-disc list-inside space-y-2 text-slate-600 mt-3"><li>위탁학생 성적 입력 시 <strong class="highlight-red">'원점수'와 '성취도'</strong> 모두 필수</li><li>검정고시 합격 후 재취학 시, 생기부 성적 활용</li></ul></div></div></div></div>
+            <div class="slide" data-slide="4"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800"><i class="fa-solid fa-list-check text-slate-400 mr-3"></i>나이스 작업 전 사전 확인 사항</h2><p class="text-lg text-slate-500 mt-2">본격적인 나이스 작업 전, 아래 항목들을 먼저 확인하고 점검해야 실수를 줄일 수 있습니다.</p><div class="mt-6 space-y-6"><div><h3 class="text-2xl font-semibold text-slate-700"><i class="fa-solid fa-location-dot text-slate-500 w-8"></i> 1. 학생 주소 확인 (도로명)</h3><p class="mt-2 text-slate-600">학생의 <strong class="highlight-red">실거주지 기준 주민등록등본상 도로명 주소</strong>를 확인합니다. 이 주소는 후기고 2단계 배정의 기준이 되므로 정확해야 합니다.</p><p class="mt-2"><strong>경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학적] > [기본학적관리] > [기본신상관리] > [누가주소등록]</code></p></div><div><h3 class="text-2xl font-semibold text-slate-700"><i class="fa-solid fa-signature text-slate-500 w-8"></i> 2. 출결 상황 확인 (서명 필수)</h3><p class="mt-2 text-slate-600">학생별 출결 상황표를 출력하여 <strong class="highlight-red">학생 및 학부모의 확인 서명</strong>을 받아 보관합니다. 이는 출결 점수 관련 민원을 예방하는 중요한 절차입니다.</p><p class="mt-2"><strong>경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학생부] > [학생부항목별조회] > [출결상황(개인별)]</code></p></div><div><h3 class="text-2xl font-semibold text-slate-700"><i class="fa-solid fa-users text-slate-500 w-8"></i> 3. 특이배정 대상자 확인</h3><p class="mt-2 text-slate-600">쌍둥이, 교직원 자녀 등 특이배정 대상 학생이 있는지 사전에 파악하고 필요한 서류(가족관계증명서, 재직증명서 등)를 안내합니다.</p></div></div></div></div>
+            <div class="slide" data-slide="5"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800"><i class="fa-solid fa-sitemap text-slate-400 mr-3"></i>업무 흐름 ①: 성적 처리</h2><p class="text-lg text-slate-500 mt-2">나이스 [자체개발] 서버에서의 성적 산출 및 확인 절차입니다.</p><div class="mt-12 grid grid-cols-1 md:grid-cols-5 gap-4 text-center"><div class="bg-slate-100 p-4 rounded-lg shadow-sm"><div class="text-2xl mb-2">🏫</div><strong class="text-slate-700">학교</strong><p class="text-sm text-slate-500 mt-1">생기부 마감<br>(~11/14)</p></div><div class="flex items-center justify-center font-bold text-3xl text-slate-300">→</div><div class="bg-blue-100 p-4 rounded-lg shadow-sm"><div class="text-2xl mb-2">🏢</div><strong class="text-blue-700">교육청</strong><p class="text-sm text-blue-500 mt-1">대상자 생성<br>& 성적 산출</p></div><div class="flex items-center justify-center font-bold text-3xl text-slate-300">→</div><div class="bg-emerald-100 p-4 rounded-lg shadow-sm"><div class="text-2xl mb-2">🧑‍🏫</div><strong class="text-emerald-700">학교</strong><p class="text-sm text-emerald-500 mt-1">성적 검증/확정<br>(11/15~20)</p></div></div><ol class="mt-10 space-y-3 list-decimal list-inside text-lg"><li><strong>[총괄]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[업무처리현황/관리]</code>에서 대상자 인원 확인, 담임 등록</li><li><strong>[담임]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별대상자확인]</code>에서 성적 산출 제외 대상자 체크 후 저장</li><li class="font-bold"><strong>[담임]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별고입성적확인서]</code> 출력 후 <strong class="highlight-red">학부모 서명 받아 보관 (★)</strong></li><li><strong>[담임]</strong> 서명 확인 후 <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별고입성적확인]</code>에서 '성적확인완료' 클릭</li><li><strong>[총괄]</strong> 모든 반 완료 확인 후 <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[업무처리현황/관리]</code>에서 '성적확인완료(총괄)' 클릭</li></ol></div></div>
+            <div class="slide" data-slide="6"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800"><i class="fa-solid fa-sitemap text-slate-400 mr-3"></i>업무 흐름 ②: 원서 작성</h2><p class="text-lg text-slate-500 mt-2">학생의 미래가 걸린 마지막 단계입니다. 더블 체크는 필수입니다.</p><div class="mt-12 grid grid-cols-1 md:grid-cols-5 gap-4 text-center"><div class="bg-emerald-100 p-4 rounded-lg shadow-sm"><div class="text-2xl mb-2">✍️</div><strong class="text-emerald-700">담임</strong><p class="text-sm text-emerald-500 mt-1">원서 작성 및<br>학부모 확인</p></div><div class="flex items-center justify-center font-bold text-3xl text-slate-300">→</div><div class="bg-emerald-100 p-4 rounded-lg shadow-sm"><div class="text-2xl mb-2">✅</div><strong class="text-emerald-700">총괄</strong><p class="text-sm text-emerald-500 mt-1">원서 마감 및<br>온라인 전송</p></div><div class="flex items-center justify-center font-bold text-3xl text-slate-300">→</div><div class="bg-blue-100 p-4 rounded-lg shadow-sm"><div class="text-2xl mb-2">📬</div><strong class="text-blue-700">교육청</strong><p class="text-sm text-blue-500 mt-1">원서 접수 및<br>최종 마감</p></div></div><ol class="mt-10 space-y-3 list-decimal list-inside text-lg"><li><strong>[담임]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서작성]</code>에서 학생별 원서(가원서 기반) 내용 입력 및 저장</li><li class="font-bold"><strong>[담임]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[개인별원서출력]</code>에서 최종 원서 출력 후 <strong class="highlight-red">학부모 서명 받아 보관 (★)</strong></li><li><strong>[담임]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서검증/마감]</code>에서 반별 마감 처리</li><li><strong>[총괄]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서학교마감/현황]</code>에서 전체 마감 처리</li><li><strong>[총괄]</strong> <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[후기원서전송/대장출력]</code>에서 온라인 전송 및 접수대장 출력 제출</li></ol></div></div>
+            <div class="slide" data-slide="7"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800"><i class="fa-solid fa-lightbulb text-slate-400 mr-3"></i>핵심 실무 Q&A</h2><p class="text-lg text-slate-500 mt-2">"원서 작성은 잘해야 본전"입니다. 성적 확인 절차 준수는 선생님을 보호하는 가장 확실한 방법입니다.</p><div class="mt-8 space-y-6"><div class="tip-box"><p class="font-bold">💡 Q. '기타진학'은 어떤 학생이 선택하나요?</p><p class="text-sm mt-2">자사고/외고/국제고 지원자 중 <strong class="highlight-red">일반고 배정을 희망하지 않는 학생만</strong> '기타진학'으로 처리합니다. 대부분은 일반고 배정을 희망하므로 '후기' 전형으로 원서를 작성해야 합니다. 이 구분을 잘못하면 학생이 원서를 못 쓰는 불상사가 생길 수 있습니다.</p></div><div class="tip-box"><p class="font-bold">💡 Q. 특성화고 원서 제출 시 주의할 점은?</p><p class="text-sm mt-2">특성화고 원서는 저장 후 반드시 <strong class="highlight-red">'제출'</strong> 버튼을 클릭해야 합니다. 최종적으로 <strong class="highlight-red">'접수 번호'</strong>가 생성되었는지 확인해야만 정상적으로 제출이 완료된 것입니다.</p></div></div></div></div>
+            <div class="slide" data-slide="8"><div class="slide-content flex flex-col items-center justify-center h-full text-center my-auto"><div class="text-slate-500 text-6xl mb-6"><i class="fa-regular fa-thumbs-up"></i></div><h1 class="text-4xl font-bold text-slate-800">수고하셨습니다</h1><p class="mt-6 text-lg text-slate-500 max-w-2xl">고입 전형 업무는 정확성과 절차 준수가 가장 중요합니다.<br>학생들의 성공적인 진학을 위해 함께 노력해주셔서 감사합니다.</p></div></div>
         </div>
 
         <!-- Navigation -->
         <div class="bg-slate-100 p-4 flex items-center justify-between border-t">
             <button id="prev-btn" class="bg-white border border-slate-300 text-slate-600 font-semibold py-2 px-6 rounded-lg shadow-sm hover:bg-slate-200 transition disabled:opacity-50 disabled:cursor-not-allowed">이전</button>
-            <div class="text-sm text-slate-500 font-medium">
-                <span id="current-slide-num">1</span> / <span id="total-slides-num">8</span>
-            </div>
+            <div class="text-sm text-slate-500 font-medium"><span id="current-slide-num">1</span> / <span id="total-slides-num">8</span></div>
             <button id="next-btn" class="bg-slate-800 text-white font-semibold py-2 px-6 rounded-lg shadow-sm hover:bg-slate-700 transition">다음</button>
         </div>
     </div>
-
-<div class="btn-container">
-    <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="nav-button-top" role="button">맨 위로 이동</a>
-</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -293,42 +57,47 @@
         const nextBtn = document.getElementById('next-btn');
         const currentSlideNum = document.getElementById('current-slide-num');
         const totalSlidesNum = document.getElementById('total-slides-num');
-        
         let currentSlide = 0;
         const totalSlides = slides.length;
         totalSlidesNum.textContent = totalSlides;
 
         function showSlide(index) {
             slides.forEach((slide, i) => {
-                i === index ? slide.classList.add('active') : slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                    const content = slide.querySelector('.slide-content');
+                    if(content) {
+                        gsap.fromTo(content.children, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power2.out' });
+                    }
+                } else {
+                    slide.classList.remove('active');
+                }
             });
-            
             currentSlideNum.textContent = index + 1;
             prevBtn.disabled = index === 0;
             nextBtn.disabled = index === totalSlides - 1;
-
-            if (index === totalSlides - 1) {
-                nextBtn.textContent = '완료';
-            } else {
-                nextBtn.textContent = '다음';
-            }
+            nextBtn.textContent = (index === totalSlides - 1) ? '완료' : '다음';
         }
 
         prevBtn.addEventListener('click', () => {
-            if (currentSlide > 0) {
-                currentSlide--;
-                showSlide(currentSlide);
-            }
+            if (currentSlide > 0) { currentSlide--; showSlide(currentSlide); }
         });
 
         nextBtn.addEventListener('click', () => {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                showSlide(currentSlide);
-            }
+            if (currentSlide < totalSlides - 1) { currentSlide++; showSlide(currentSlide); }
         });
 
         showSlide(currentSlide);
+
+        // Fullscreen API
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) { document.exitFullscreen(); }
+            }
+        });
     });
 </script>
 

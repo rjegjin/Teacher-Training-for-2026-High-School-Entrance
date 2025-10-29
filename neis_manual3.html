@@ -6,327 +6,52 @@
     <title>2026학년도 고입 진학 실무 연수 (상세)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: #F1F5F9; /* slate-100 */
-        }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #F1F5F9; }
         .slide {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            min-height: 550px; /* Ensure slides have minimum height */
-            padding-bottom: 2rem; /* Add padding for content */
+            display: none; opacity: 0; transition: opacity 0.5s ease-in-out;
+            position: absolute; width: 100%; height: 100%; left: 0; top: 0; padding: 2rem 3rem;
         }
-        .slide.active {
-            display: flex; /* Use flexbox for vertical centering */
-            flex-direction: column; /* Stack elements vertically */
-            opacity: 1;
-        }
-        .highlight-red {
-            color: #DC2626; /* red-600 */
-            font-weight: 700;
-        }
-        .tip-box {
-            background-color: #EFF6FF; /* blue-50 */
-            border-left: 4px solid #3B82F6; /* blue-500 */
-            padding: 1rem;
-            margin-top: 1.5rem;
-            border-radius: 0.25rem;
-        }
-         .image-placeholder {
-            border: 1px dashed #CBD5E1; /* slate-300 */
-            background-color: #F8FAFC; /* slate-50 */
-            padding: 2rem;
-            text-align: center;
-            color: #64748B; /* slate-500 */
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 0.375rem; /* rounded-md */
-            font-style: italic;
-        }
+        .slide.active { display: block; opacity: 1; }
+        .highlight-red { color: #DC2626; font-weight: 700; }
+        .tip-box { background-color: #EFF6FF; border-left: 4px solid #3B82F6; padding: 1rem; margin-top: 1.5rem; border-radius: 0.25rem; }
+        .image-placeholder { border: 1px dashed #CBD5E1; background-color: #F8FAFC; padding: 2rem; text-align: center; color: #64748B; margin-top: 1rem; margin-bottom: 1rem; border-radius: 0.375rem; font-style: italic; }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
 
+    <!-- Floating Action Buttons -->
+    <div class="fixed bottom-4 right-4 z-20 flex flex-col space-y-2">
+        <button id="fullscreen-btn" class="bg-slate-700 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-slate-800 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m0 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5h-4m0 0v-4m0 4l-5-5" /></svg>
+        </button>
+    </div>
+
     <div class="w-full max-w-5xl bg-white rounded-xl shadow-2xl overflow-hidden">
-        <div id="slides-container" class="relative p-8 md:p-12">
-            <!-- Slide 1: Title -->
-            <div class="slide active" data-slide="1">
-                <div class="flex flex-col items-center justify-center h-full text-center my-auto">
-                    <h1 class="text-4xl md:text-5xl font-bold text-slate-800">2026학년도 고입 진학</h1>
-                    <h2 class="text-3xl md:text-4xl font-semibold text-slate-600 mt-2">상세 실무 연수</h2>
-                    <p class="mt-8 text-lg text-slate-500 max-w-2xl">3학년 담임 교사를 위한 월별 주요 업무 및 나이스(NEIS) 처리 절차 상세 안내</p>
-                </div>
-            </div>
-
-            <!-- Slide 2: November Timeline -->
-            <div class="slide" data-slide="2">
-                <h2 class="text-3xl font-bold text-slate-800 mb-4">11월 주요 업무 타임라인</h2>
-                <p class="text-lg text-slate-500 mb-6">고입 업무가 집중되는 11월, 일정별 핵심 체크리스트입니다.</p>
-                <ul class="space-y-3 text-lg">
-                    <li><span class="font-bold w-36 inline-block text-slate-700">11/5~7(화~목):</span> <strong class="highlight-red">주소/출결 확인</strong> - 누가주소(도로명) 확인, 출결 확인 및 서명 받기</li>
-                    <li><span class="font-bold w-36 inline-block text-slate-700">~ 11/14(금):</span> <strong class="highlight-red">생기부 최종 마감</strong> - 출결 및 생기부 전체 마감 (검증 사유: '고입 성적 산출')</li>
-                    <li><span class="font-bold w-36 inline-block text-slate-700">11/17~18(월~화):</span> <strong class="highlight-red">성적 확인서 수거</strong> - 배부된 확인서에 <strong class="highlight-red">정자 서명</strong> 후 수거 (★필수)</li>
-                    <li><span class="font-bold w-36 inline-block text-slate-700">11/21(금):</span> <strong class="highlight-red">가원서 배부</strong> - 성적표 및 가원서, 개인정보동의서 배부</li>
-                    <li><span class="font-bold w-36 inline-block text-slate-700">11/26(수):</span> <strong class="highlight-red">가원서 수합</strong> - 가원서 수합 및 작성 완료</li>
-                    <li><span class="font-bold w-36 inline-block text-slate-700">11/26~29(수~금):</span> <strong class="text-blue-600">생기부 추가 입력 마감</strong> - 독서, 과세특, 봉사, 동아리 등</li>
-                    <li><span class="font-bold w-36 inline-block text-slate-700">11/28~12/1(목~일):</span> <strong class="highlight-red">최종 원서 수합/제출</strong> - 최종 원서(진원서) 배부, <strong class="highlight-red">정자 서명</strong> 후 수합 및 제출 (★필수)</li>
-                </ul>
-                 <p class="text-sm text-slate-500 mt-4">※ 생기부 추가 입력은 성적 산출 완료(별도 공지) 후 가능합니다.</p>
-            </div>
-            
-            <!-- Slide 3: Key Changes 1 -->
-            <div class="slide" data-slide="3">
-                 <h2 class="text-3xl font-bold text-slate-800 mb-6">주요 변경 사항 (1)</h2>
-                                  <div class="mt-4 grid md:grid-cols-2 gap-6 text-lg">
-                     <div class="bg-slate-50 p-6 rounded-lg">
-                        <h3 class="font-bold text-xl text-slate-800 mb-2">⭐ 출결: 전 학년 반영 (중요!)</h3>
-                        <p class="text-slate-600">출결 점수(20점) 산정 시 <strong class="highlight-red">중학교 1, 2, 3학년 전체</strong> 미인정 결석, 지각, 조퇴, 결과가 반영됩니다.</p>
-                                            </div>
-                     <div class="bg-slate-50 p-6 rounded-lg">
-                        <h3 class="font-bold text-xl text-slate-800 mb-2">🏫 학교 변경 및 검정고시</h3>
-                        <ul class="list-disc list-inside space-y-2 text-slate-600">
-                             <li>자사고였던 **대광고등학교**가 **일반고**로 전환됩니다.</li>
-                             <li>검정고시 합격 후 중학교 재취학 시, 졸업 여부와 상관없이 생기부를 활용합니다.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-             <!-- Slide 4: Key Changes 2 -->
-             <div class="slide" data-slide="4">
-                 <h2 class="text-3xl font-bold text-slate-800 mb-6">주요 변경 사항 (2)</h2>
-                                  <div class="mt-4 grid md:grid-cols-2 gap-6 text-lg">
-                     <div class="bg-slate-50 p-6 rounded-lg">
-                        <h3 class="font-bold text-xl text-slate-800 mb-2">🖥️ NEIS 변경 사항</h3>
-                         <ul class="list-disc list-inside space-y-2 text-slate-600">
-                             <li>**교육활동 침해 학생** 분리 배정 대상자 등록 메뉴가 신설되었습니다.</li>
-                             <li>중3 유급자는 원서 작성 시 전형구분을 '기타진학 > 기타'로 저장 후 <strong class="highlight-red">원서 미작성</strong> 처리합니다.</li>
-                        </ul>
-                    </div>
-                     <div class="bg-slate-50 p-6 rounded-lg">
-                        <h3 class="font-bold text-xl text-slate-800 mb-2">📝 성적 및 기록 관련</h3>
-                        <ul class="list-disc list-inside space-y-2 text-slate-600">
-                             <li>위탁학생 성적 입력 시 <strong class="highlight-red">'원점수'와 '성취도'</strong> 모두 필수 기재해야 합니다.</li>
-                              <li>석차백분율은 총괄 성적 확인 완료 시 <strong class="highlight-red">자동 산출</strong>됩니다 (타시도 지원 시 활용).</li>
-                                                       </ul>
-                    </div>
-                 </div>
-            </div>
-
-            <!-- Slide 5: Overall Workflow -->
-            <div class="slide" data-slide="5">
-                 <h2 class="text-3xl font-bold text-slate-800 mb-6">전체 업무 흐름도</h2>
-                 <p class="text-lg text-slate-500 mb-4">중학교, 교육지원청, 본청 간의 전체적인 업무 흐름입니다.</p>
-                             </div>
-
-            <!-- Slide 6: Pre-NEIS Check 1: Student Record Basics -->
-            <div class="slide" data-slide="6">
-                <h2 class="text-3xl font-bold text-slate-800 mb-6">나이스 사전 확인 (1): 학적, 출결, 주소</h2>
-                                <div class="mt-4 space-y-4">
-                     <div>
-                        <h3 class="text-xl font-semibold text-slate-700">1. 학적 변동 처리</h3>
-                        <p class="mt-1 text-slate-600">학적 담당자가 전/편입생 학적 처리 및 반영을 완료합니다.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-slate-700">2. 출결 마감 (담임, ~11/14)</h3>
-                        <p class="mt-1 text-slate-600"><strong class="highlight-red">11월 14일 기준</strong>으로 출결 마감을 완료합니다.</p>
-                        <p class="mt-1 text-slate-600"><strong>출결 확인 경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학생부] > [학생부자료조회] > [항목별조회] > [출결상황(개인별)]</code></p>
-                                                <p class="mt-1 text-slate-600"><strong class="highlight-red">★반드시 출력하여 학생, 학부모 서명 후 수합 보관!</strong></p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-slate-700">3. 학생 주소 확인 (담임)</h3>
-                         <p class="mt-1 text-slate-600"><strong class="highlight-red">실거주지 주민등록등본 상의 도로명 주소</strong>를 <strong class="highlight-red">정확히</strong> 입력합니다.</p>
-                         <p class="mt-1 text-slate-600"><strong>주소 확인 경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학적] > [기본학적관리] > [학생주소관계]</code></p>
-                                                  <p class="mt-1 text-slate-600"><strong>주소 입력/수정 경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학적] > [기본학적관리] > [기본신상관리] > 개인별 <strong class="highlight-red">[누가주소등록] 탭</strong></code></p>
-                                                  <p class="mt-1 text-slate-600"><strong class="highlight-red">★주요주소/상세주소 구분</strong>하여 입력 (오류 시 행정동 추출 불가)</p>
-                    </div>
-                 </div>
-            </div>
-
-            <!-- Slide 7: Pre-NEIS Check 2: Birthdate & Student Record Finalization -->
-            <div class="slide" data-slide="7">
-                <h2 class="text-3xl font-bold text-slate-800 mb-6">나이스 사전 확인 (2): 생년월일, 생기부 마감</h2>
-                <div class="mt-4 space-y-6">
-                    <div>
-                        <h3 class="text-xl font-semibold text-slate-700">4. 생년월일 확인 (담임)</h3>
-                        <p class="mt-1 text-slate-600">주민등록번호 앞자리와 <strong class="highlight-red">생년월일 데이터가 일치하는지</strong> 확인합니다.</p>
-                        <p class="mt-1 text-slate-600"><strong>경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학적] > [기본학적관리] > [기본신상관리] > [기본신상] 탭</code></p>
-                                            </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-slate-700">5. 학교생활기록부 최종 마감 절차 (~11/14)</h3>
-                                                <ul class="list-decimal list-inside space-y-2 mt-2 text-slate-600">
-                           <li><strong>자료 반영 (담임):</strong> 교과, 성적, 출결, 봉사 등 완료 후 자료 반영. (<strong class="highlight-red">위탁생 원점수/성취도 확인!</strong>)</li>
-                           <li><strong>자료 검증 (담임):</strong> 확인 필요 항목 반드시 확인.</li>
-                           <li><strong>반별 마감 (담임):</strong> 자료 검증 후 반별 마감.</li>
-                           <li><strong>전체 마감 (생기부 담당자):</strong> 모든 반 마감 후 전체 마감.</li>
-                        </ul>
-                         <p class="mt-2 text-sm text-slate-500">※ 생기부 마감 시 검증 사유는 <strong class="highlight-red">'고입 성적 산출'</strong>로 입력합니다.</p>
-                         <p class="mt-1 text-sm text-slate-500">※ 성적 산출 대상자 생성 후에는 마감 취소 가능합니다.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-slate-700">6. 특이배정 대상자 서류 확인</h3>
-                         <p class="mt-1 text-slate-600">쌍둥이(가족관계증명서), 교직원 자녀(재직증명서, 가족관계증명서) 등 해당 학생의 필요 서류를 미리 확인하고 준비합니다.</p>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Slide 8: NEIS Workflow & Score Calculation Flow -->
-            <div class="slide" data-slide="8">
-                 <h2 class="text-3xl font-bold text-slate-800 mb-6">나이스 성적산출 절차 흐름도</h2>
-                 <p class="text-lg text-slate-500 mb-4">학교 생기부 마감 후, 교육청 성적 산출을 거쳐 학교에서 최종 확인하는 절차입니다.</p>
-                                  <p class="text-lg text-slate-500 mt-8 mb-4">나이스 메뉴 구성에 따른 성적 확인 상세 흐름입니다.</p>
-                             </div>
-
-
-             <!-- Slide 9: Score Verification Steps -->
-            <div class="slide" data-slide="9">
-                <h2 class="text-3xl font-bold text-slate-800 mb-6">핵심 실무: 성적 확인 상세 순서 (담임)</h2>
-                <p class="text-lg text-slate-500 mt-2">11/15(토)~20(목) 기간 동안 나이스 [자체개발] 서버에서 진행합니다.</p>
-                <ol class="mt-6 space-y-4 list-decimal list-inside text-lg">
-                     <li><code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[성적관리(학교)] > [반별대상자확인]</code><br> - 성적 산출 제외 대상 학생 확인 후 <strong class="highlight-red">[저장]</strong> 클릭.</li>
-                     <li><code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별고입성적확인]</code><br> - 총 이수 과목 수 등 담임교사 1차 확인. (성적 확인 완료 버튼 <strong class="highlight-red">아직 클릭 금지!</strong>)</li>
-                    <li><code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별고입성적확인서]</code><br> - 확인서 일괄 출력 및 학생/학부모에게 배부.</li>
-                    <li class="font-bold">배부된 확인서에 <strong class="highlight-red">학생 및 학부모 정자 서명을 받아 회수 및 보관 (★필수★)</strong> (11/17~18 권장).</li>
-                    <li>서명 회수 및 내용 이상 없음을 확인 후, 다시 <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별고입성적확인]</code> 메뉴에서 <strong class="highlight-red">'성적확인완료' 클릭</strong>.</li>
-                </ol>
-                 <div class="tip-box">
-                     <p class="font-bold">💡 실무 팁: 성적 확인서의 중요성</p>
-                     <p class="text-sm mt-1">이 확인서는 학교생활기록부 상의 교과 성적, 이수 과목, 최하위 성취도, 미인정 출결 일수 등이 모두 정확히 반영되었음을 학생과 학부모가 확인했다는 증빙 자료입니다. <strong class="highlight-red">반드시 서명을 받아 보관</strong>해야 합니다.</p>
-                                      </div>
-            </div>
-
-            <!-- Slide 10: Finalizing Scores & Reports -->
-            <div class="slide" data-slide="10">
-                 <h2 class="text-3xl font-bold text-slate-800 mb-6">성적 확인 완료 및 일람표/성적표 출력</h2>
-                 <div class="mt-4 space-y-6">
-                      <div>
-                        <h3 class="text-xl font-semibold text-slate-700">1. 학교 전체 성적 확인 완료 (총괄)</h3>
-                         <p class="mt-1 text-slate-600"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[성적관리(학교)] > [업무처리현황/관리]</code></p>
-                         <p class="mt-1 text-slate-600">모든 반의 '성적확인완료' 상태를 확인 후, <strong class="highlight-red">'성적확인완료(총괄)'</strong> 버튼 클릭.</p>
-                         <p class="mt-1 text-sm text-slate-500">※ 이 버튼을 클릭해야만 고입성적일람표 조회 및 출력이 가능합니다.</p>
-                                              </div>
-                     <div>
-                        <h3 class="text-xl font-semibold text-slate-700">2. 고입성적일람표 출력 (총괄/담임)</h3>
-                         <p class="mt-1 text-slate-600"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[성적관리(학교)] > [*학교고입성적일람표], [반별고입성적일람표]</code></p>
-                         <p class="mt-1 text-slate-600">총괄 담당자는 학교 전체 일람표를 출력하여 내부 결재 후 <strong class="highlight-red">5년간 별도 보관</strong>합니다.</p>
-                                              </div>
-                      <div>
-                        <h3 class="text-xl font-semibold text-slate-700">3. 고입성적통지표 배부 (담임)</h3>
-                         <p class="mt-1 text-slate-600"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[성적관리(학교)] > [반별고입성적통지표]</code></p>
-                         <p class="mt-1 text-slate-600">학교 전체 성적 확인 완료 후, 통지표를 출력하여 학생들에게 배부합니다 (11/21 예정).</p>
-                     </div>
-                 </div>
-            </div>
-
-            <!-- Slide 11: Application Workflow -->
-            <div class="slide" data-slide="11">
-                 <h2 class="text-3xl font-bold text-slate-800 mb-6">원서 작성 및 제출 절차 흐름도</h2>
-                 <p class="text-lg text-slate-500 mb-4">성적 처리가 완료되면 원서 작성 단계로 넘어갑니다.</p>
-                                  <p class="text-lg text-slate-500 mt-8 mb-4">나이스 메뉴별 원서 작성 및 제출 상세 흐름입니다.</p>
-                             </div>
-
-             <!-- Slide 12: Application Form - Key Points -->
-            <div class="slide" data-slide="12">
-                 <h2 class="text-3xl font-bold text-slate-800 mb-6">입학원서 작성: 기본 정보 입력 (담임)</h2>
-                 <p class="text-lg text-slate-500 mt-2">가원서 작성 전, 나이스에서 학생별 기본 정보를 설정합니다.</p>
-                 <p class="mt-4"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서관리(학교)] > [원서작성(특성화/후기)] > [기본정보등록] 탭</code></p>
-                 <ul class="list-disc list-inside space-y-3 mt-4 text-slate-700 text-lg">
-                     <li><strong class="highlight-red">전형 구분 선택:</strong> 전기(특성화고), 후기(일반고), 기타진학 중 선택.</li>
-                     <li><strong class="highlight-red">연락처 필수 입력:</strong> 학생 및 보호자 연락처(휴대폰) 일괄 등록.</li>
-                     <li><strong class="highlight-red">주소 확인:</strong> 실제 거주지 도로명 주소 확인 및 필요시 수정.</li>
-                 </ul>
-                                  <div class="tip-box">
-                    <p class="font-bold">💡 실무 팁: 기타 진학 구분</p>
-                    <p class="text-sm mt-1">타시도 진학, 특수대상, 유예 등 외에 <strong class="highlight-red">자사고/외고/국제고만 지원</strong>하는 학생(일반고 배정 포기)은 '기타진학'으로, <strong class="highlight-red">이중 지원</strong>하는 학생은 <strong class="highlight-red">'후기'</strong>로 선택해야 합니다.</p>
-                                      </div>
-             </div>
-
-             <!-- Slide 13: Application Form - General High School -->
-             <div class="slide" data-slide="13">
-                 <h2 class="text-3xl font-bold text-slate-800 mb-6">입학원서 작성: 후기고 원서 (담임)</h2>
-                 <p class="text-lg text-slate-500 mt-2">교육감 선발 후기고 지원 학생의 원서를 작성합니다.</p>
-                 <p class="mt-4"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서관리(학교)] > [원서작성(특성화/후기)] > [후기원서등록] 탭</code></p>
-                 <ul class="list-disc list-inside space-y-3 mt-4 text-slate-700 text-lg">
-                     <li><strong class="highlight-red">지망 학교 선택:</strong> [지망학교선택] 버튼 클릭하여 1단계(2개교), 2단계(2개교) 입력.</li>
-                     <li><strong class="highlight-red">이중 지원자:</strong> '자사고/외고/국제고 지원' 항목 <strong class="highlight-red">체크</strong> 후 1단계에 해당교 입력.</li>
-                     <li><strong class="highlight-red">특이 배정:</strong> 쌍둥이, 교직원 자녀 등 해당 시 등록 버튼 클릭 후 상세 정보 입력.</li>
-                     <li><strong class="highlight-red">행정동 확인:</strong> 도로명 주소 기반 자동 변환된 행정동 확인 (오류 시 수동 선택).</li>
-                 </ul>
-                                                     <div class="tip-box">
-                    <p class="font-bold">💡 실무 팁: 체육 특기자</p>
-                    <p class="text-sm mt-1">체육 특기자는 응시 분류를 '체육특기'로 선택하고, 지망 구분 '단일'에서 4개 지망교를 선택합니다. 자사고 등 이중 지원 시에도 동일하게 처리합니다.</p>
-                                      </div>
-            </div>
-
-             <!-- Slide 14: Application Form - Specialized High School -->
-             <div class="slide" data-slide="14">
-                 <h2 class="text-3xl font-bold text-slate-800 mb-6">입학원서 작성: 특성화고 원서 (담임)</h2>
-                 <p class="text-lg text-slate-500 mt-2">특성화고 지원 학생의 원서를 작성합니다.</p>
-                 <p class="mt-4"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서관리(학교)] > [원서작성(특성화/후기)] > [전기(특성화)원서등록] 탭</code></p>
-                                  <ul class="list-disc list-inside space-y-3 mt-4 text-slate-700 text-lg">
-                     <li><strong class="highlight-red">학교/학과/전형 선택:</strong> [선택] 버튼 클릭하여 정확히 선택 후 저장.</li>
-                     <li><strong class="highlight-red">저장 → 출력 → 서명 → 제출:</strong> 저장 후 원서 출력하여 학생/보호자 <strong class="highlight-red">정자 서명</strong> 확인 후 <strong class="highlight-red">[제출]</strong> 버튼 클릭.</li>
-                     <li><strong class="highlight-red">접수 번호 확인:</strong> '제출' 후 반드시 <strong class="highlight-red">'접수 번호'</strong>가 생성되었는지 확인해야 최종 완료.</li>
-                 </ul>
-                 <div class="tip-box">
-                    <p class="font-bold">💡 실무 팁: 특성화고 원서 유의사항</p>
-                                                            <ul class="list-disc list-inside space-y-1 text-sm mt-2">
-                         <li>담임교사 임의 선택 금지, 반드시 학생/보호자 진학 의사 확인.</li>
-                         <li>온라인 제출 외 출력물 불필요 (일반전형 기준).</li>
-                         <li>'제출' 후 수정 필요 시, 해당 특성화고와 유선 통화 후 '반려 요청'.</li>
-                         <li>이중 지원 여부 반드시 확인.</li>
-                    </ul>
-                 </div>
-             </div>
-
-            <!-- Slide 15: Final Submission & Wrap-up -->
-            <div class="slide" data-slide="15">
-                 <h2 class="text-3xl font-bold text-slate-800 mb-6">최종 제출 및 추후 일정</h2>
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-xl font-semibold text-slate-700">1. 최종 원서 제출 (11/28~12/1, 담임)</h3>
-                        <p class="mt-1 text-slate-600">학생/학부모 <strong class="highlight-red">정자 서명이 완료된 최종 원서(진원서)</strong>를 수합하여 총괄 담당자에게 제출합니다.</p>
-                    </div>
-                     <div>
-                        <h3 class="text-xl font-semibold text-slate-700">2. 나이스 최종 마감 및 전송 (12/3~5, 총괄)</h3>
-                         <ul class="list-decimal list-inside space-y-1 mt-1 text-slate-600">
-                             <li><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서학교마감/현황]</code>에서 전체 마감.</li>
-                             <li><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[후기원서전송/대장출력]</code>에서 온라인 전송 및 접수대장 출력.</li>
-                         </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-slate-700">3. 추후 주요 일정</h3>
-                        <ul class="list-disc list-inside space-y-1 mt-1 text-slate-600">
-                            <li>배정 대상자(합격자) 발표: 2026. 1. 7(수)</li>
-                            <li>배정 학교 발표: 2026. 1. 29(목)</li>
-                            <li>입학 등록: 2026. 1. 29(목) ~ 1. 30(금)</li>
-                         </ul>
-                                             </div>
-                 </div>
-            </div>
-
-            <!-- Slide 16: Finish -->
-             <div class="slide" data-slide="16">
-                <div class="flex flex-col items-center justify-center h-full text-center my-auto">
-                    <h1 class="text-4xl font-bold text-slate-800">수고하셨습니다</h1>
-                    <p class="mt-6 text-lg text-slate-500 max-w-2xl">
-                        고입 전형 업무는 정확성과 절차 준수가 가장 중요합니다.<br>
-                        학생들의 성공적인 진학을 위해 함께 노력해주셔서 감사합니다.
-                    </p>
-                </div>
-            </div>
-
+        <div id="slides-container" class="relative min-h-[600px]">
+            <div class="slide active" data-slide="1"><div class="slide-content flex flex-col items-center justify-center h-full text-center my-auto"><h1 class="text-4xl md:text-5xl font-bold text-slate-800">2026학년도 고입 진학</h1><h2 class="text-3xl md:text-4xl font-semibold text-slate-600 mt-2">상세 실무 연수</h2><p class="mt-8 text-lg text-slate-500 max-w-2xl">3학년 담임 교사를 위한 월별 주요 업무 및 나이스(NEIS) 처리 절차 상세 안내</p></div></div>
+            <div class="slide" data-slide="2"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-4">11월 주요 업무 타임라인</h2><p class="text-lg text-slate-500 mb-6">고입 업무가 집중되는 11월, 일정별 핵심 체크리스트입니다.</p><ul class="space-y-3 text-lg"><li><span class="font-bold w-36 inline-block text-slate-700">11/5~7(화~목):</span> <strong class="highlight-red">주소/출결 확인</strong> - 누가주소(도로명) 확인, 출결 확인 및 서명 받기</li><li><span class="font-bold w-36 inline-block text-slate-700">~ 11/14(금):</span> <strong class="highlight-red">생기부 최종 마감</strong> - 출결 및 생기부 전체 마감 (검증 사유: '고입 성적 산출')</li><li><span class="font-bold w-36 inline-block text-slate-700">11/17~18(월~화):</span> <strong class="highlight-red">성적 확인서 수거</strong> - 배부된 확인서에 <strong class="highlight-red">정자 서명</strong> 후 수거 (★필수)</li><li><span class="font-bold w-36 inline-block text-slate-700">11/21(금):</span> <strong class="highlight-red">가원서 배부</strong> - 성적표 및 가원서, 개인정보동의서 배부</li><li><span class="font-bold w-36 inline-block text-slate-700">11/26(수):</span> <strong class="highlight-red">가원서 수합</strong> - 가원서 수합 및 작성 완료</li><li><span class="font-bold w-36 inline-block text-slate-700">11/26~29(수~금):</span> <strong class="text-blue-600">생기부 추가 입력 마감</strong> - 독서, 과세특, 봉사, 동아리 등</li><li><span class="font-bold w-36 inline-block text-slate-700">11/28~12/1(목~일):</span> <strong class="highlight-red">최종 원서 수합/제출</strong> - 최종 원서(진원서) 배부, <strong class="highlight-red">정자 서명</strong> 후 수합 및 제출 (★필수)</li></ul><p class="text-sm text-slate-500 mt-4">※ 생기부 추가 입력은 성적 산출 완료(별도 공지) 후 가능합니다.</p></div></div>
+            <div class="slide" data-slide="3"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">주요 변경 사항 (1)</h2><div class="mt-4 grid md:grid-cols-2 gap-6 text-lg"><div class="bg-slate-50 p-6 rounded-lg"><h3 class="font-bold text-xl text-slate-800 mb-2">⭐ 출결: 전 학년 반영 (중요!)</h3><p class="text-slate-600">출결 점수(20점) 산정 시 <strong class="highlight-red">중학교 1, 2, 3학년 전체</strong> 미인정 결석, 지각, 조퇴, 결과가 반영됩니다.</p></div><div class="bg-slate-50 p-6 rounded-lg"><h3 class="font-bold text-xl text-slate-800 mb-2">🏫 학교 변경 및 검정고시</h3><ul class="list-disc list-inside space-y-2 text-slate-600"><li>자사고였던 **대광고등학교**가 **일반고**로 전환됩니다.</li><li>검정고시 합격 후 중학교 재취학 시, 졸업 여부와 상관없이 생기부를 활용합니다.</li></ul></div></div></div></div>
+            <div class="slide" data-slide="4"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">주요 변경 사항 (2)</h2><div class="mt-4 grid md:grid-cols-2 gap-6 text-lg"><div class="bg-slate-50 p-6 rounded-lg"><h3 class="font-bold text-xl text-slate-800 mb-2">🖥️ NEIS 변경 사항</h3><ul class="list-disc list-inside space-y-2 text-slate-600"><li>**교육활동 침해 학생** 분리 배정 대상자 등록 메뉴가 신설되었습니다.</li><li>중3 유급자는 원서 작성 시 전형구분을 '기타진학 > 기타'로 저장 후 <strong class="highlight-red">원서 미작성</strong> 처리합니다.</li></ul></div><div class="bg-slate-50 p-6 rounded-lg"><h3 class="font-bold text-xl text-slate-800 mb-2">📝 성적 및 기록 관련</h3><ul class="list-disc list-inside space-y-2 text-slate-600"><li>위탁학생 성적 입력 시 <strong class="highlight-red">'원점수'와 '성취도'</strong> 모두 필수 기재해야 합니다.</li><li>석차백분율은 총괄 성적 확인 완료 시 <strong class="highlight-red">자동 산출</strong>됩니다 (타시도 지원 시 활용).</li></ul></div></div></div></div>
+            <div class="slide" data-slide="5"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">전체 업무 흐름도</h2><p class="text-lg text-slate-500 mb-4">중학교, 교육지원청, 본청 간의 전체적인 업무 흐름입니다.</p></div></div>
+            <div class="slide" data-slide="6"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">나이스 사전 확인 (1): 학적, 출결, 주소</h2><div class="mt-4 space-y-4"><div><h3 class="text-xl font-semibold text-slate-700">1. 학적 변동 처리</h3><p class="mt-1 text-slate-600">학적 담당자가 전/편입생 학적 처리 및 반영을 완료합니다.</p></div><div><h3 class="text-xl font-semibold text-slate-700">2. 출결 마감 (담임, ~11/14)</h3><p class="mt-1 text-slate-600"><strong class="highlight-red">11월 14일 기준</strong>으로 출결 마감을 완료합니다.</p><p class="mt-1 text-slate-600"><strong>출결 확인 경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학생부] > [학생부자료조회] > [항목별조회] > [출결상황(개인별)]</code></p><p class="mt-1 text-slate-600"><strong class="highlight-red">★반드시 출력하여 학생, 학부모 서명 후 수합 보관!</strong></p></div><div><h3 class="text-xl font-semibold text-slate-700">3. 학생 주소 확인 (담임)</h3><p class="mt-1 text-slate-600"><strong class="highlight-red">실거주지 주민등록등본 상의 도로명 주소</strong>를 <strong class="highlight-red">정확히</strong> 입력합니다.</p><p class="mt-1 text-slate-600"><strong>주소 확인 경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학적] > [기본학적관리] > [학생주소관계]</code></p><p class="mt-1 text-slate-600"><strong>주소 입력/수정 경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학적] > [기본학적관리] > [기본신상관리] > 개인별 <strong class="highlight-red">[누가주소등록] 탭</strong></code></p><p class="mt-1 text-slate-600"><strong class="highlight-red">★주요주소/상세주소 구분</strong>하여 입력 (오류 시 행정동 추출 불가)</p></div></div></div></div>
+            <div class="slide" data-slide="7"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">나이스 사전 확인 (2): 생년월일, 생기부 마감</h2><div class="mt-4 space-y-6"><div><h3 class="text-xl font-semibold text-slate-700">4. 생년월일 확인 (담임)</h3><p class="mt-1 text-slate-600">주민등록번호 앞자리와 <strong class="highlight-red">생년월일 데이터가 일치하는지</strong> 확인합니다.</p><p class="mt-1 text-slate-600"><strong>경로:</strong> <code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[학적] > [기본학적관리] > [기본신상관리] > [기본신상] 탭</code></p></div><div><h3 class="text-xl font-semibold text-slate-700">5. 학교생활기록부 최종 마감 절차 (~11/14)</h3><ul class="list-decimal list-inside space-y-2 mt-2 text-slate-600"><li><strong>자료 반영 (담임):</strong> 교과, 성적, 출결, 봉사 등 완료 후 자료 반영. (<strong class="highlight-red">위탁생 원점수/성취도 확인!</strong>)</li><li><strong>자료 검증 (담임):</strong> 확인 필요 항목 반드시 확인.</li><li><strong>반별 마감 (담임):</strong> 자료 검증 후 반별 마감.</li><li><strong>전체 마감 (생기부 담당자):</strong> 모든 반 마감 후 전체 마감.</li></ul><p class="mt-2 text-sm text-slate-500">※ 생기부 마감 시 검증 사유는 <strong class="highlight-red">'고입 성적 산출'</strong>로 입력합니다.</p><p class="mt-1 text-sm text-slate-500">※ 성적 산출 대상자 생성 후에는 마감 취소 가능합니다.</p></div><div><h3 class="text-xl font-semibold text-slate-700">6. 특이배정 대상자 서류 확인</h3><p class="mt-1 text-slate-600">쌍둥이(가족관계증명서), 교직원 자녀(재직증명서, 가족관계증명서) 등 해당 학생의 필요 서류를 미리 확인하고 준비합니다.</p></div></div></div></div>
+            <div class="slide" data-slide="8"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">나이스 성적산출 절차 흐름도</h2><p class="text-lg text-slate-500 mb-4">학교 생기부 마감 후, 교육청 성적 산출을 거쳐 학교에서 최종 확인하는 절차입니다.</p><p class="text-lg text-slate-500 mt-8 mb-4">나이스 메뉴 구성에 따른 성적 확인 상세 흐름입니다.</p></div></div>
+            <div class="slide" data-slide="9"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">핵심 실무: 성적 확인 상세 순서 (담임)</h2><p class="text-lg text-slate-500 mt-2">11/15(토)~20(목) 기간 동안 나이스 [자체개발] 서버에서 진행합니다.</p><ol class="mt-6 space-y-4 list-decimal list-inside text-lg"><li><code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[성적관리(학교)] > [반별대상자확인]</code><br> - 성적 산출 제외 대상 학생 확인 후 <strong class="highlight-red">[저장]</strong> 클릭.</li><li><code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별고입성적확인]</code><br> - 총 이수 과목 수 등 담임교사 1차 확인. (성적 확인 완료 버튼 <strong class="highlight-red">아직 클릭 금지!</strong>)</li><li><code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별고입성적확인서]</code><br> - 확인서 일괄 출력 및 학생/학부모에게 배부.</li><li class="font-bold">배부된 확인서에 <strong class="highlight-red">학생 및 학부모 정자 서명을 받아 회수 및 보관 (★필수★)</strong> (11/17~18 권장).</li><li>서명 회수 및 내용 이상 없음을 확인 후, 다시 <code class="text-base bg-slate-200 text-slate-800 px-2 py-1 rounded">[반별고입성적확인]</code> 메뉴에서 <strong class="highlight-red">'성적확인완료' 클릭</strong>.</li></ol><div class="tip-box"><p class="font-bold">💡 실무 팁: 성적 확인서의 중요성</p><p class="text-sm mt-1">이 확인서는 학교생활기록부 상의 교과 성적, 이수 과목, 최하위 성취도, 미인정 출결 일수 등이 모두 정확히 반영되었음을 학생과 학부모가 확인했다는 증빙 자료입니다. <strong class="highlight-red">반드시 서명을 받아 보관</strong>해야 합니다.</p></div></div></div>
+            <div class="slide" data-slide="10"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">성적 확인 완료 및 일람표/성적표 출력</h2><div class="mt-4 space-y-6"><div><h3 class="text-xl font-semibold text-slate-700">1. 학교 전체 성적 확인 완료 (총괄)</h3><p class="mt-1 text-slate-600"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[성적관리(학교)] > [업무처리현황/관리]</code></p><p class="mt-1 text-slate-600">모든 반의 '성적확인완료' 상태를 확인 후, <strong class="highlight-red">'성적확인완료(총괄)'</strong> 버튼 클릭.</p><p class="mt-1 text-sm text-slate-500">※ 이 버튼을 클릭해야만 고입성적일람표 조회 및 출력이 가능합니다.</p></div><div><h3 class="text-xl font-semibold text-slate-700">2. 고입성적일람표 출력 (총괄/담임)</h3><p class="mt-1 text-slate-600"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[성적관리(학교)] > [*학교고입성적일람표], [반별고입성적일람표]</code></p><p class="mt-1 text-slate-600">총괄 담당자는 학교 전체 일람표를 출력하여 내부 결재 후 <strong class="highlight-red">5년간 별도 보관</strong>합니다.</p></div><div><h3 class="text-xl font-semibold text-slate-700">3. 고입성적통지표 배부 (담임)</h3><p class="mt-1 text-slate-600"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[성적관리(학교)] > [반별고입성적통지표]</code></p><p class="mt-1 text-slate-600">학교 전체 성적 확인 완료 후, 통지표를 출력하여 학생들에게 배부합니다 (11/21 예정).</p></div></div></div></div>
+            <div class="slide" data-slide="11"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">원서 작성 및 제출 절차 흐름도</h2><p class="text-lg text-slate-500 mb-4">성적 처리가 완료되면 원서 작성 단계로 넘어갑니다.</p><p class="text-lg text-slate-500 mt-8 mb-4">나이스 메뉴별 원서 작성 및 제출 상세 흐름입니다.</p></div></div>
+            <div class="slide" data-slide="12"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">입학원서 작성: 기본 정보 입력 (담임)</h2><p class="text-lg text-slate-500 mt-2">가원서 작성 전, 나이스에서 학생별 기본 정보를 설정합니다.</p><p class="mt-4"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서관리(학교)] > [원서작성(특성화/후기)] > [기본정보등록] 탭</code></p><ul class="list-disc list-inside space-y-3 mt-4 text-slate-700 text-lg"><li><strong class="highlight-red">전형 구분 선택:</strong> 전기(특성화고), 후기(일반고), 기타진학 중 선택.</li><li><strong class="highlight-red">연락처 필수 입력:</strong> 학생 및 보호자 연락처(휴대폰) 일괄 등록.</li><li><strong class="highlight-red">주소 확인:</strong> 실제 거주지 도로명 주소 확인 및 필요시 수정.</li></ul><div class="tip-box"><p class="font-bold">💡 실무 팁: 기타 진학 구분</p><p class="text-sm mt-1">타시도 진학, 특수대상, 유예 등 외에 <strong class="highlight-red">자사고/외고/국제고만 지원</strong>하는 학생(일반고 배정 포기)은 '기타진학'으로, <strong class="highlight-red">이중 지원</strong>하는 학생은 <strong class="highlight-red">'후기'</strong>로 선택해야 합니다.</p></div></div></div>
+            <div class="slide" data-slide="13"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">입학원서 작성: 후기고 원서 (담임)</h2><p class="text-lg text-slate-500 mt-2">교육감 선발 후기고 지원 학생의 원서를 작성합니다.</p><p class="mt-4"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서관리(학교)] > [원서작성(특성화/후기)] > [후기원서등록] 탭</code></p><ul class="list-disc list-inside space-y-3 mt-4 text-slate-700 text-lg"><li><strong class="highlight-red">지망 학교 선택:</strong> [지망학교선택] 버튼 클릭하여 1단계(2개교), 2단계(2개교) 입력.</li><li><strong class="highlight-red">이중 지원자:</strong> '자사고/외고/국제고 지원' 항목 <strong class="highlight-red">체크</strong> 후 1단계에 해당교 입력.</li><li><strong class="highlight-red">특이 배정:</strong> 쌍둥이, 교직원 자녀 등 해당 시 등록 버튼 클릭 후 상세 정보 입력.</li><li><strong class="highlight-red">행정동 확인:</strong> 도로명 주소 기반 자동 변환된 행정동 확인 (오류 시 수동 선택).</li></ul><div class="tip-box"><p class="font-bold">💡 실무 팁: 체육 특기자</p><p class="text-sm mt-1">체육 특기자는 응시 분류를 '체육특기'로 선택하고, 지망 구분 '단일'에서 4개 지망교를 선택합니다. 자사고 등 이중 지원 시에도 동일하게 처리합니다.</p></div></div></div>
+            <div class="slide" data-slide="14"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">입학원서 작성: 특성화고 원서 (담임)</h2><p class="text-lg text-slate-500 mt-2">특성화고 지원 학생의 원서를 작성합니다.</p><p class="mt-4"><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서관리(학교)] > [원서작성(특성화/후기)] > [전기(특성화)원서등록] 탭</code></p><ul class="list-disc list-inside space-y-3 mt-4 text-slate-700 text-lg"><li><strong class="highlight-red">학교/학과/전형 선택:</strong> [선택] 버튼 클릭하여 정확히 선택 후 저장.</li><li><strong class="highlight-red">저장 → 출력 → 서명 → 제출:</strong> 저장 후 원서 출력하여 학생/보호자 <strong class="highlight-red">정자 서명</strong> 확인 후 <strong class="highlight-red">[제출]</strong> 버튼 클릭.</li><li><strong class="highlight-red">접수 번호 확인:</strong> '제출' 후 반드시 <strong class="highlight-red">'접수 번호'</strong>가 생성되었는지 확인해야 최종 완료.</li></ul><div class="tip-box"><p class="font-bold">💡 실무 팁: 특성화고 원서 유의사항</p><ul class="list-disc list-inside space-y-1 text-sm mt-2"><li>담임교사 임의 선택 금지, 반드시 학생/보호자 진학 의사 확인.</li><li>온라인 제출 외 출력물 불필요 (일반전형 기준).</li><li>'제출' 후 수정 필요 시, 해당 특성화고와 유선 통화 후 '반려 요청'.</li><li>이중 지원 여부 반드시 확인.</li></ul></div></div></div>
+            <div class="slide" data-slide="15"><div class="slide-content"><h2 class="text-3xl font-bold text-slate-800 mb-6">최종 제출 및 추후 일정</h2><div class="space-y-6"><div><h3 class="text-xl font-semibold text-slate-700">1. 최종 원서 제출 (11/28~12/1, 담임)</h3><p class="mt-1 text-slate-600">학생/학부모 <strong class="highlight-red">정자 서명이 완료된 최종 원서(진원서)</strong>를 수합하여 총괄 담당자에게 제출합니다.</p></div><div><h3 class="text-xl font-semibold text-slate-700">2. 나이스 최종 마감 및 전송 (12/3~5, 총괄)</h3><ul class="list-decimal list-inside space-y-1 mt-1 text-slate-600"><li><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[원서학교마감/현황]</code>에서 전체 마감.</li><li><code class="bg-slate-200 text-slate-800 px-2 py-1 rounded">[후기원서전송/대장출력]</code>에서 온라인 전송 및 접수대장 출력.</li></ul></div><div><h3 class="text-xl font-semibold text-slate-700">3. 추후 주요 일정</h3><ul class="list-disc list-inside space-y-1 mt-1 text-slate-600"><li>배정 대상자(합격자) 발표: 2026. 1. 7(수)</li><li>배정 학교 발표: 2026. 1. 29(목)</li><li>입학 등록: 2026. 1. 29(목) ~ 1. 30(금)</li></ul></div></div></div></div>
+            <div class="slide" data-slide="16"><div class="slide-content flex flex-col items-center justify-center h-full text-center my-auto"><h1 class="text-4xl font-bold text-slate-800">수고하셨습니다</h1><p class="mt-6 text-lg text-slate-500 max-w-2xl">고입 전형 업무는 정확성과 절차 준수가 가장 중요합니다.<br>학생들의 성공적인 진학을 위해 함께 노력해주셔서 감사합니다.</p></div></div>
         </div>
 
         <!-- Navigation -->
         <div class="bg-slate-100 p-4 flex items-center justify-between border-t">
             <button id="prev-btn" class="bg-white border border-slate-300 text-slate-600 font-semibold py-2 px-6 rounded-lg hover:bg-slate-200 transition disabled:opacity-50 disabled:cursor-not-allowed">이전</button>
-            <div class="text-sm text-slate-500 font-medium">
-                <span id="current-slide-num">1</span> / <span id="total-slides-num">16</span>
-            </div>
+            <div class="text-sm text-slate-500 font-medium"><span id="current-slide-num">1</span> / <span id="total-slides-num">16</span></div>
             <button id="next-btn" class="bg-slate-800 text-white font-semibold py-2 px-6 rounded-lg hover:bg-slate-700 transition">다음</button>
         </div>
     </div>
@@ -338,7 +63,6 @@
         const nextBtn = document.getElementById('next-btn');
         const currentSlideNum = document.getElementById('current-slide-num');
         const totalSlidesNum = document.getElementById('total-slides-num');
-        
         let currentSlide = 0;
         const totalSlides = slides.length;
         totalSlidesNum.textContent = totalSlides;
@@ -347,38 +71,39 @@
             slides.forEach((slide, i) => {
                 if (i === index) {
                     slide.classList.add('active');
+                    const content = slide.querySelector('.slide-content');
+                    if(content) {
+                        gsap.fromTo(content.children, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power2.out' });
+                    }
                 } else {
                     slide.classList.remove('active');
                 }
             });
-
             currentSlideNum.textContent = index + 1;
             prevBtn.disabled = index === 0;
             nextBtn.disabled = index === totalSlides - 1;
-
-            if (index === totalSlides - 1) {
-                nextBtn.textContent = '완료';
-            } else {
-                nextBtn.textContent = '다음';
-            }
+            nextBtn.textContent = (index === totalSlides - 1) ? '완료' : '다음';
         }
 
         prevBtn.addEventListener('click', () => {
-            if (currentSlide > 0) {
-                currentSlide--;
-                showSlide(currentSlide);
-            }
+            if (currentSlide > 0) { currentSlide--; showSlide(currentSlide); }
         });
 
         nextBtn.addEventListener('click', () => {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                showSlide(currentSlide);
-            }
+            if (currentSlide < totalSlides - 1) { currentSlide++; showSlide(currentSlide); }
         });
 
-        // Initial setup
         showSlide(currentSlide);
+
+        // Fullscreen API
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) { document.exitFullscreen(); }
+            }
+        });
     });
 </script>
 
